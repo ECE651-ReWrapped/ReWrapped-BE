@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
     
     // access database
 
-    // authenticate user
+    // authenticate user with jwt
 
     // approve/deny
 

@@ -9,7 +9,7 @@ const users = [
 // the order of the post/get functions matter; always place static routes above dynamic routes
 
 router.post('/new', (req, res) => {
-    res.send('create user test route');
+    res.status(420).json({ message: "post response" }); // return json
 });
 
 router.route("/:id")
