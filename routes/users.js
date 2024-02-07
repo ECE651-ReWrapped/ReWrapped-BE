@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const pool = require("../db");
 
 const users = [
     { name: "Kyle" },
@@ -8,21 +9,39 @@ const users = [
 
 // the order of the post/get functions matter; always place static routes above dynamic routes
 
-router.post('/new', (req, res) => {
-    res.status(420).json({ message: "post response" }); // return json
+router.post('/new', async (req, res) => {
+    try {
+        //res.status(420).json({ message: "post response" }); // return json
+
+        const { description } = req.body;
+        const newUser = await pool.query("INSERT INTO users (description) VALUES ($1) RETURNING *",
+            [description]
+        );
+
+        res.json(newUser);
+    } catch (e) {
+        console.error(e.message);
+    }
 });
 
-router.route("/:id")
-    .get((req, res) => { // when u want to grab from url
+router.route("/:id") // when u want to grab from url
+    .get(async (req, res) => {
         //res.send("getting user: " + req.params.id);
-        console.log(req.user);
-        res.send(`get user with id: ${req.params.id}`);
+        try {
+            const allUsers = await pool.query("SELECT * FROM users");
+
+            res.json(allUsers.rows);
+        } catch (e) {
+            console.log(e.message);
+        }
+        //console.log(req.user);
+        //res.send(`get user with id: ${req.params.id}`);
     })
-    .put((req, res) => { // when u want to grab from url
+    .put((req, res) => {
         //res.send("getting user: " + req.params.id);
         res.send(`put user with id: ${req.params.id}`);
     })
-    .delete((req, res) => { // when u want to grab from url
+    .delete((req, res) => {
         //res.send("getting user: " + req.params.id);
         res.send(`delete user with id: ${req.params.id}`);
     });
