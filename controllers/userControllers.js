@@ -28,7 +28,7 @@ const register = async (req, res) => {
 
     const jwtToken = jwtGenerator(newUser.rows[0].user_id);
 
-    return res.json({ jwtToken });
+    return res.status(200).json({ jwtToken });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server Error");
@@ -58,7 +58,7 @@ const login = async (req, res) => {
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
-    return res.json({ jwtToken });
+    return res.status(200).json({ jwtToken });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");

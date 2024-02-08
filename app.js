@@ -13,4 +13,4 @@ app.use(express.json());
 
 app.use("/", userRoutes);
 
-app.listen(3000);
+app.listen(process.env.DATABASE_PORT);
