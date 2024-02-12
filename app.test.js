@@ -3,6 +3,12 @@ const app = require('./app');
 const jwt = require('jsonwebtoken');
 const pool = require("./db");
 
+// Jest hook to run after tests have completed
+afterAll(async () => {
+    // Close the pool
+    await pool.end();
+});
+
 // Test registration
 describe("POST /register (testing user registration)", () => {
     describe("Testing new user", () => {
@@ -28,6 +34,7 @@ describe("POST /register (testing user registration)", () => {
             expect(decoded.user.id).toBeTruthy(); // we don't know the value, but expect to exist and be truthy
 
             // optionally, we could query the db to find out exactly what the next ID would be?
+            // should we even be returning a token on sign up? shouldn't we only do it on login?
         })
     });
 
@@ -83,9 +90,41 @@ describe("POST /register (testing user registration)", () => {
         })
     });
 
-    // add two tests for missing password and missing confirmPassword
+    describe("Testing blank password", () => {
+        test("Response code 401 and json with message", async () => {
+            // make sure test@gmail.com doesn't exist in test database
+            await pool.query('DELETE FROM users WHERE user_email = $1', ['test@gmail.com']);
 
-    // add test for invalid email
+            const resp = await request(app).post("/register").send({
+                email: "test@gmail.com",
+                name: "test",
+                password: "",
+                confirmPassword: "test1234"
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(401);
+            expect(resp.body.message).toBe("Missing Credentials");
+        })
+    });
+
+    describe("Testing invalid email", () => {
+        test("Response code 401 and json with message", async () => {
+            // make sure test@gmail.com doesn't exist in test database
+            await pool.query('DELETE FROM users WHERE user_email = $1', ['test@gmail.com']);
+
+            const resp = await request(app).post("/register").send({
+                email: "test@gmail..com",
+                name: "test",
+                password: "test1234",
+                confirmPassword: "test1234"
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(401);
+            expect(resp.body.message).toBe("Invalid Email");
+        })
+    });
 
     describe("Testing passwords not matching", () => {
         test("Response code 401 and json with message", async () => {
@@ -96,7 +135,7 @@ describe("POST /register (testing user registration)", () => {
                 email: "test@gmail.com",
                 name: "test",
                 password: "test1234",
-                confirmPassword: "test123"
+                confirmPassword: ""
             });
 
             // expected items
@@ -129,5 +168,130 @@ describe("POST /register (testing user registration)", () => {
 });
 
 describe("POST /login (testing user login/authentication)", () => {
+    describe("Testing blank email", () => {
+        test("Response code 401 and json with message", async () => {
+            const resp = await request(app).post("/login").send({
+                email: "",
+                password: "test1234",
+            });
 
+            // expected items
+            expect(resp.statusCode).toBe(401);
+            expect(resp.body.message).toBe("Missing Credentials");
+        })
+    });
+
+    describe("Testing blank password", () => {
+        test("Response code 401 and json with message", async () => {
+            const resp = await request(app).post("/login").send({
+                email: "test@gmail.com",
+                password: "",
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(401);
+            expect(resp.body.message).toBe("Missing Credentials");
+        })
+    });
+
+    describe("Testing user not found", () => {
+        test("Response code 401 and json with message", async () => {
+            // make sure test@gmail.com doesn't exist in test database
+            await pool.query('DELETE FROM users WHERE user_email = $1', ['test@gmail.com']);
+
+            const resp = await request(app).post("/login").send({
+                email: "test@gmail.com",
+                password: "test1234",
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(401);
+            expect(resp.body.message).toBe("Invalid Credentials");
+        })
+    });
+
+    describe("Testing login successful", () => {
+        test("Response code 200 for user creation and for successful login + token returned", async () => {
+            // make sure test@gmail.com doesn't exist in test database
+            await pool.query('DELETE FROM users WHERE user_email = $1', ['test@gmail.com']);
+
+            // create user
+            const userCreation = await request(app).post("/register").send({
+                email: "test@gmail.com",
+                name: "test",
+                password: "test1234",
+                confirmPassword: "test1234"
+
+            });
+
+            // expected items
+            expect(userCreation.statusCode).toBe(200);
+
+            // login
+            const resp = await request(app).post("/login").send({
+                email: "test@gmail.com",
+                password: "test1234"
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(200);
+            expect(resp.body).toHaveProperty('token');
+
+            // verify JWT token
+            const decoded = jwt.verify(resp.body.token, process.env.JWT_SECRET_KEY);
+            expect(decoded.user).toHaveProperty('id');
+            expect(decoded.user.id).toBeTruthy(); // we don't know the value, but expect to exist and be truthy
+        });
+    });
+
+    describe("Testing incorrect password", () => {
+        test("Response code 200 for user creation. Response code 401 for invalid password + message", async () => {
+            // make sure test@gmail.com doesn't exist in test database
+            await pool.query('DELETE FROM users WHERE user_email = $1', ['test@gmail.com']);
+
+            // create user
+            const userCreation = await request(app).post("/register").send({
+                email: "test@gmail.com",
+                name: "test",
+                password: "test1234",
+                confirmPassword: "test1234"
+
+            });
+
+            // expected items
+            expect(userCreation.statusCode).toBe(200);
+
+            // login
+            const resp = await request(app).post("/login").send({
+                email: "test@gmail.com",
+                password: "test4321"
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(401);
+            expect(resp.body.message).toBe("Invalid Credentials");
+        });
+    });
+
+    describe("Testing server error", () => {
+        test("Response code 500 and text/html response", async () => {
+            // Spy on pool.query and mock its implementation temporarily
+            const querySpy = jest.spyOn(pool, 'query');
+            querySpy.mockRejectedValue(new Error("Database Error"));
+
+            const resp = await request(app).post("/login").send({
+                email: "test@gmail.com",
+                name: "test",
+                password: "test1234",
+                confirmPassword: "test123"
+            });
+
+            // expected items
+            expect(resp.statusCode).toBe(500);
+            expect(resp.text).toBe("Server Error");
+
+            // restore the original implementation after the test
+            querySpy.mockRestore();
+        })
+    });
 });
