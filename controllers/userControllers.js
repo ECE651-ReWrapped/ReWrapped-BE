@@ -30,8 +30,6 @@ const register = async (req, res) => {
 
     return res.status(200).json({ token: jwtToken });
   } catch (err) {
-    console.error(err.message);
-    
     res.status(500).send("Server Error");
   }
 };

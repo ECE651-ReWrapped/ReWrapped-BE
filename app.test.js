@@ -83,6 +83,8 @@ describe("POST /register (testing user registration)", () => {
         })
     });
 
+    // maybe add two tests for missing password and missing confirmPassword?
+
     describe("Testing passwords not matching", () => {
         test("Response code 401 and json with message", async () => {
             // make sure test@gmail.com doesn't exist in test database
