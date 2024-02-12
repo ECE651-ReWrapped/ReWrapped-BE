@@ -61,7 +61,7 @@ describe("POST /register (testing user registration)", () => {
 
             // expected items
             expect(resp.statusCode).toBe(401);
-            expect(resp.body.message).toBe("Please provide an email");
+            expect(resp.body.message).toBe("Missing Credentials");
         })
     });
 
@@ -79,11 +79,13 @@ describe("POST /register (testing user registration)", () => {
 
             // expected items
             expect(resp.statusCode).toBe(401);
-            expect(resp.body.message).toBe("Please provide a username");
+            expect(resp.body.message).toBe("Missing Credentials");
         })
     });
 
-    // maybe add two tests for missing password and missing confirmPassword?
+    // add two tests for missing password and missing confirmPassword
+
+    // add test for invalid email
 
     describe("Testing passwords not matching", () => {
         test("Response code 401 and json with message", async () => {
@@ -124,4 +126,8 @@ describe("POST /register (testing user registration)", () => {
             querySpy.mockRestore();
         })
     });
+});
+
+describe("POST /login (testing user login/authentication)", () => {
+
 });
