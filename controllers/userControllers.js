@@ -11,11 +11,11 @@ const register = async (req, res) => {
     ]);
 
     if (user.rows.length > 0) {
-      return res.status(401).json("User already exists");
+      return res.status(401).json({message: "User already exists"});
     }
 
     if (password !== confirmPassword) {
-      return res.status(401).json("Passwords do not match");
+      return res.status(401).json({message: "Passwords do not match"});
     }
 
     const salt = await bycrypt.genSalt(10);
@@ -28,9 +28,8 @@ const register = async (req, res) => {
 
     const jwtToken = jwtGenerator(newUser.rows[0].user_id);
 
-    return res.status(200).json({ jwtToken });
+    return res.status(200).json({ token: jwtToken });
   } catch (err) {
-    console.error(err.message);
     res.status(500).send("Server Error");
   }
 };
@@ -44,7 +43,7 @@ const login = async (req, res) => {
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json("Invalid Credentials");
+      return res.status(401).json({message: "Invalid Credentials"});
     }
 
     const validPassword = await bycrypt.compare(
@@ -53,16 +52,18 @@ const login = async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json("Invalid Credentials");
+      return res.status(401).json({message: "Invalid Credentials"});
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
-    return res.status(200).json({ jwtToken });
+
+    return res.status(200).json({ token: jwtToken });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server error");
+    res.status(500).send("Server Error");
   }
 };
 
 exports.register = register;
 exports.login = login;
+
+

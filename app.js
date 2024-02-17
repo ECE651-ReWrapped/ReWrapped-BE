@@ -1,5 +1,4 @@
 require("dotenv").config(); // should be the first thing that runs
-const PORT = process.env.DATABASE_PORT || 5000; // Fallback to 5000 if DATABASE_PORT is not defined
 
 const express = require("express");
 const cors = require("cors");
@@ -14,6 +13,4 @@ app.use(express.json());
 
 app.use("/", userRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = app;
