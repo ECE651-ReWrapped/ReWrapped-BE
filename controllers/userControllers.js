@@ -23,7 +23,7 @@ const register = async (req, res) => {
 
     let newUser = await pool.query(
       "INSERT INTO users (user_name, user_email, user_password) VALUES ($1, $2, $3) RETURNING *",
-      [name, email, bcryptPassword]
+      [name, email, bcryptPassword],
     );
 
     const jwtToken = jwtGenerator(newUser.rows[0].user_id);
@@ -48,7 +48,7 @@ const login = async (req, res) => {
 
     const validPassword = await bycrypt.compare(
       password,
-      user.rows[0].user_password
+      user.rows[0].user_password,
     );
 
     if (!validPassword) {
