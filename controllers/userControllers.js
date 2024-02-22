@@ -30,7 +30,7 @@ const register = async (req, res) => {
 
     return res.status(200).json({ token: jwtToken });
   } catch (err) {
-    res.status(500).send("Server Error");
+    return res.status(500).send("Server Error");
   }
 };
 
@@ -59,7 +59,7 @@ const login = async (req, res) => {
 
     return res.status(200).json({ token: jwtToken });
   } catch (err) {
-    res.status(500).send("Server Error");
+    return res.status(500).send("Server Error");
   }
 };
 
@@ -72,16 +72,16 @@ const deleteUser = async (req, res) => {
     ]);
 
     if(user.rows.length == 0) {
-      res.status(401).json({message: 'User does not Exist'})
+      return res.status(401).json({message: 'User does not Exist'})
     }
 
     //If User exists --> Delete
     const deleteUser = await pool.query("DELETE FROM users WHERE user_email = $1", [email])
 
-    res.status(200).json({message: 'User succesfully deleted'})
+    return res.status(200).json({message: 'User succesfully deleted'})
 
   } catch (err) {
-    res.status(500).send("Server Error")
+    return res.status(500).send("Server Error")
   }
 }
 
