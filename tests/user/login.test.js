@@ -5,6 +5,13 @@ const pool = require("../../db");
 
 // Jest hook to run after tests have completed
 afterAll(async () => {
+    // make sure login@gmail.com doesn't exist in test database
+    const deleteUser = await request(app).delete("/delete").send({
+        email: "login@gmail.com"
+    });
+
+    expect(deleteUser.body.message).toBe("User successfully deleted");
+
     // Close the pool
     await pool.end();
 });
@@ -12,9 +19,6 @@ afterAll(async () => {
 describe("POST /login (testing user login/authentication)", () => {
     describe("Testing user login with blank email", () => {
         test("Expect response code 401 and json with error message after failed login", async () => {
-            // make sure login@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['login@gmail.com']);
-
             // create user
             const userCreation = await request(app).post("/register").send({
                 email: "login@gmail.com",
@@ -25,7 +29,7 @@ describe("POST /login (testing user login/authentication)", () => {
             });
 
             // expected items
-            //expect(userCreation.statusCode).toBe(200);
+            expect(userCreation.statusCode).toBe(200);
 
             // login attempt
             const resp = await request(app).post("/login").send({
@@ -41,20 +45,16 @@ describe("POST /login (testing user login/authentication)", () => {
 
     describe("Testing user login with blank password", () => {
         test("Expect response code 401 and json with error message after failed login", async () => {
-            // make sure login@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['login@gmail.com']);
-
             // create user
             const userCreation = await request(app).post("/register").send({
                 email: "login@gmail.com",
                 name: "test",
                 password: "test1234",
                 confirmPassword: "test1234"
-
             });
 
             // expected items
-            //expect(userCreation.statusCode).toBe(200);
+            expect(userCreation.statusCode).toBe(200);
 
             // login attempt
             const resp = await request(app).post("/login").send({
@@ -70,9 +70,6 @@ describe("POST /login (testing user login/authentication)", () => {
 
     describe("Testing user not found during login attempt", () => {
         test("Expect response code 401 and json with error message on use login", async () => {
-            // make sure login@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['login@gmail.com']);
-
             const resp = await request(app).post("/login").send({
                 email: "login@gmail.com",
                 password: "test1234",
@@ -86,9 +83,6 @@ describe("POST /login (testing user login/authentication)", () => {
 
     describe("Testing successful user login", () => {
         test("Response code 200 for user creation and for successful login + token returned", async () => {
-            // make sure login@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['login@gmail.com']);
-
             // create user
             const userCreation = await request(app).post("/register").send({
                 email: "login@gmail.com",
@@ -120,9 +114,6 @@ describe("POST /login (testing user login/authentication)", () => {
 
     describe("Testing incorrect password on user login", () => {
         test("Expect response code 200 for user creation. Response code 401 for invalid password + error message", async () => {
-            // make sure login@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['login@gmail.com']);
-
             // create user
             const userCreation = await request(app).post("/register").send({
                 email: "login@gmail.com",

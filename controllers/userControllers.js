@@ -11,7 +11,7 @@ const register = async (req, res) => {
     ]);
 
     if (user.rows.length > 0) {
-      return res.status(401).json({message: "User already exists"});
+      return res.status(405).json({message: "User already exists"});
     }
 
     if (password !== confirmPassword) {
@@ -78,7 +78,7 @@ const deleteUser = async (req, res) => {
     //If User exists --> Delete
     const deleteUser = await pool.query("DELETE FROM users WHERE user_email = $1", [email])
 
-    return res.status(200).json({message: 'User succesfully deleted'})
+    return res.status(200).json({message: 'User successfully deleted'})
 
   } catch (err) {
     return res.status(500).send("Server Error")

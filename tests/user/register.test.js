@@ -14,7 +14,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing registration of new user with valid details", () => {
         test("Should return 200 OK response and valid JWT when registering new user", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             const resp = await request(app).post("/register").send({
                 email: "register@gmail.com",
@@ -41,7 +45,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing user already exists on user registration", () => {
         test("Return response code 401 and json with error response message for already existing user on registration", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             // create user
             const userCreation = await request(app).post("/register").send({
@@ -73,7 +81,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing blank email during user registration", () => {
         test("Expect response code 401 and json with error message on user registration with blank email", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             const resp = await request(app).post("/register").send({
                 email: "",
@@ -91,7 +103,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing blank username during registration", () => {
         test("Expect response code 401 and json with error message on user registration with blank username", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             const resp = await request(app).post("/register").send({
                 email: "register@gmail.com",
@@ -109,7 +125,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing blank password during user registration", () => {
         test("Expect response code 401 and json with error message during blank password user registration", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             const resp = await request(app).post("/register").send({
                 email: "register@gmail.com",
@@ -127,7 +147,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing invalid email on user registration", () => {
         test("Expect response code 401 and json error message on invalid email during user registration", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             const resp = await request(app).post("/register").send({
                 email: "test@gmail..com",
@@ -145,7 +169,11 @@ describe("POST /register (testing user registration)", () => {
     describe("Testing passwords not matching during user registration", () => {
         test("Expect response code 401 and json error message for non-matching passwords during user registration", async () => {
             // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
+            const deleteUser = (await request(app).delete("/delete")).send({
+                email: "register@gmail.com"
+            });
+
+            expect(deleteUser.message).toBe("User successfully deleted");
 
             const resp = await request(app).post("/register").send({
                 email: "register@gmail.com",
