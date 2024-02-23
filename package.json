@@ -18,6 +18,18 @@
     "jsonwebtoken": "^9.0.2",
     "pg": "^8.11.3"
   },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "yarn lint:fix",
+      "yarn format",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "eslint": "^8.50.0",
