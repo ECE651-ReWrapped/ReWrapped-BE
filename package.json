@@ -24,7 +24,7 @@
     "*.{js}": [
       "yarn lint:fix",
       "yarn format",
-      "git add"
+      "git add ."
     ]
   },
   "husky": {
