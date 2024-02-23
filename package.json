@@ -6,6 +6,8 @@
     "start": "node app.js",
     "dev": "nodemon app.js",
     "format": "prettier --write \"**/*.+(js|jsx|json|yml|yaml|css|md)\"",
+    "lint": "eslint src",
+    "lint:fix": "eslint --fix src",
     "prepare": "husky"
   },
   "license": "MIT",
@@ -19,7 +21,7 @@
     "pg": "^8.11.3"
   },
   "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
+    "*.{js}": [
       "yarn lint:fix",
       "yarn format",
       "git add"
