@@ -11,11 +11,11 @@ const register = async (req, res) => {
     ]);
 
     if (user.rows.length > 0) {
-      return res.status(401).json({message: "User already exists"});
+      return res.status(401).json({ message: "User already exists" });
     }
 
     if (password !== confirmPassword) {
-      return res.status(401).json({message: "Passwords do not match"});
+      return res.status(401).json({ message: "Passwords do not match" });
     }
 
     const salt = await bycrypt.genSalt(10);
@@ -43,7 +43,7 @@ const login = async (req, res) => {
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json({message: "Invalid Credentials"});
+      return res.status(401).json({ message: "Invalid Credentials" });
     }
 
     const validPassword = await bycrypt.compare(
@@ -52,7 +52,7 @@ const login = async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({message: "Invalid Credentials"});
+      return res.status(401).json({ message: "Invalid Credentials" });
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
@@ -65,5 +65,3 @@ const login = async (req, res) => {
 
 exports.register = register;
 exports.login = login;
-
-
