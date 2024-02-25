@@ -344,10 +344,9 @@ app.get('/callback', function (req, res) {
                                                         }
                                                     });
                                                 });
-                                                const displayName = req.session.userId;
+                                                
 
-                                                // Send a JSON response with the display name
-                                                res.json({ displayName: displayName });
+                                                
 
 
                                             }
@@ -379,7 +378,9 @@ app.get('/callback', function (req, res) {
 
 
                 // Successful authentication, redirect to the home page or perform additional actions
-                res.redirect('/');
+                // Send a JSON response with the display name
+                const displayName = req.session.userId;
+                res.redirect('/?displayName=' + encodeURIComponent(displayName));
             });
 
         } catch (error) {
