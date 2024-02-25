@@ -1,0 +1,207 @@
+2024-02-21T19:17:13.303Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:29:53.883Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:31:16.129Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:33:10.051Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:38:05.463Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:41:25.121Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:43:41.119Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:45:00.710Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:47:13.360Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:48:45.294Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T19:51:53.141Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T20:00:22.392Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T20:05:22.033Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-21T20:07:13.468Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T21:20:25.497Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T21:24:01.228Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T21:31:21.806Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T21:35:35.371Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T21:37:28.466Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.466Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.467Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.467Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.467Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.468Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.468Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.469Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.469Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.470Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.470Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.471Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.471Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.472Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.472Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.473Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.473Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.473Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.474Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:37:28.474Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:38:52.460Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T21:41:09.871Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.872Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.872Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.873Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.873Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.874Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.874Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.875Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.875Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.875Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.875Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.876Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.876Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.876Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.877Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.877Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.877Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.878Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.878Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T21:41:09.878Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:28:32.888Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T22:29:42.671Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.672Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.672Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.672Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.673Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.673Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.674Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.674Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.674Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.675Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.676Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.676Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.677Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.677Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.677Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.678Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.678Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.678Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.679Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:29:42.679Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:35:39.862Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T22:41:17.434Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.434Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.435Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.435Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.435Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.436Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.436Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.437Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.437Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.438Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.438Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.439Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.439Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.439Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.439Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.440Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.440Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.440Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.441Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.441Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.442Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.443Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.443Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.444Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.444Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.444Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.445Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.445Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.445Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:41:17.445Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:54:29.649Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T22:55:29.649Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.649Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.650Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.650Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.650Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.651Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.651Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.652Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.652Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.652Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.653Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.653Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.654Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.654Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.655Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.655Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.656Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.656Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.656Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.657Z - ERROR: Error inserting into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.657Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.658Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.659Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.659Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.659Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.660Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.660Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.660Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.661Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:55:29.661Z - ERROR: Error inserting recommended track into database: Error: Connection terminated unexpectedly
+2024-02-24T22:57:06.603Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T22:58:13.693Z - ERROR: PostgreSQL connection error: Error: SASL: SCRAM-SERVER-FIRST-MESSAGE: client password must be a string
+2024-02-24T23:05:23.007Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:05:40.414Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:05:41.488Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:05:43.186Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:05:44.655Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:05:54.443Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:05:55.818Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.668Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.670Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.682Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.684Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.685Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.686Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.687Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.689Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.690Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.692Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.693Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.695Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:07:23.696Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.539Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.541Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.543Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.544Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.546Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.547Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.548Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.549Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.551Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.552Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.555Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.556Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.557Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.559Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.561Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.563Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.564Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.565Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.567Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:11:20.569Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.946Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.947Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.948Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.950Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.951Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.952Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.953Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.955Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.956Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.958Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.959Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.961Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.962Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.963Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.964Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.965Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.966Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.967Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.968Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-24T23:22:21.969Z - ERROR: Error inserting into database: error: column "trackname" of relation "recently_played_tracks" does not exist
+2024-02-25T00:13:08.370Z - ERROR: Error starting the application: Error setting up the database: CREATE DATABASE cannot run inside a transaction block
+2024-02-25T00:15:15.644Z - ERROR: Error starting the application: Error setting up the database: syntax error at or near "NOT"
+2024-02-25T00:16:14.873Z - ERROR: Error starting the application: Error setting up the database: syntax error at or near "c"
