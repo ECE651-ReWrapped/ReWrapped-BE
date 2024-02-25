@@ -205,3 +205,24 @@
 2024-02-25T00:13:08.370Z - ERROR: Error starting the application: Error setting up the database: CREATE DATABASE cannot run inside a transaction block
 2024-02-25T00:15:15.644Z - ERROR: Error starting the application: Error setting up the database: syntax error at or near "NOT"
 2024-02-25T00:16:14.873Z - ERROR: Error starting the application: Error setting up the database: syntax error at or near "c"
+2024-02-25T01:14:46.413Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "spotify_suser"
+2024-02-25T01:14:46.416Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:18:20.365Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "spotify_suser"
+2024-02-25T01:18:20.367Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:18:30.329Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "spotify_suser"
+2024-02-25T01:18:30.331Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:25:09.284Z - ERROR: PostgreSQL connection error: Error: Client has already been connected. You cannot reuse a client.
+2024-02-25T01:25:09.317Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:25:36.167Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "spotify_suser"
+2024-02-25T01:25:36.169Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:26:50.387Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "spotify_suser"
+2024-02-25T01:26:50.390Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:32:23.902Z - ERROR: Error starting the application: Error setting up the database: Cannot access 'client' before initialization
+2024-02-25T01:32:58.907Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "spotify_suser"
+2024-02-25T01:32:58.909Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:33:36.419Z - ERROR: PostgreSQL connection error: error: password authentication failed for user "postgres"
+2024-02-25T01:33:36.421Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:55:02.148Z - ERROR: PostgreSQL connection error: AggregateError
+2024-02-25T01:55:02.149Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly
+2024-02-25T01:56:12.454Z - ERROR: PostgreSQL connection error: AggregateError
+2024-02-25T01:56:12.455Z - ERROR: Error starting the application: Error setting up the database: Connection terminated unexpectedly

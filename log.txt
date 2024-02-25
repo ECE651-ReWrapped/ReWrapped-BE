@@ -531,3 +531,443 @@
 2024-02-25T00:20:23.344Z - recently_played_tracks table truncated successfully.
 2024-02-25T00:20:23.837Z - Recommended Tracks:
 2024-02-25T00:20:23.906Z - recommended_tracks table truncated successfully.
+2024-02-25T02:08:47.539Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:08:47.714Z - Database setup completed successfully.
+2024-02-25T02:08:47.717Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:08:47.745Z - Connected to PostgreSQL
+2024-02-25T02:08:47.770Z - Server is running on port 3000
+2024-02-25T02:13:37.079Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:13:37.086Z - Database setup completed successfully.
+2024-02-25T02:13:37.089Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:13:37.117Z - Connected to PostgreSQL
+2024-02-25T02:13:37.122Z - Server is running on port 3000
+2024-02-25T02:13:49.289Z - User ID:
+2024-02-25T02:15:00.310Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:15:00.317Z - Database setup completed successfully.
+2024-02-25T02:15:00.320Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:15:00.345Z - Connected to PostgreSQL
+2024-02-25T02:15:00.350Z - Server is running on port 3000
+2024-02-25T02:16:18.727Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:16:18.734Z - Database setup completed successfully.
+2024-02-25T02:16:18.737Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:16:18.762Z - Connected to PostgreSQL
+2024-02-25T02:16:18.766Z - Server is running on port 3000
+2024-02-25T02:16:53.551Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:16:53.558Z - Database setup completed successfully.
+2024-02-25T02:16:53.561Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:16:53.585Z - Connected to PostgreSQL
+2024-02-25T02:16:53.589Z - Server is running on port 3000
+2024-02-25T02:18:20.703Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:18:20.710Z - Database setup completed successfully.
+2024-02-25T02:18:20.712Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:18:20.738Z - Connected to PostgreSQL
+2024-02-25T02:18:20.742Z - Server is running on port 3000
+2024-02-25T02:23:35.831Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:23:35.838Z - Database setup completed successfully.
+2024-02-25T02:23:35.841Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:23:35.866Z - Connected to PostgreSQL
+2024-02-25T02:23:35.870Z - Server is running on port 3000
+2024-02-25T02:28:02.181Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:28:02.197Z - Database setup completed successfully.
+2024-02-25T02:28:02.204Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:28:02.264Z - Connected to PostgreSQL
+2024-02-25T02:28:02.276Z - Server is running on port 3000
+2024-02-25T02:29:32.390Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:29:32.403Z - Database setup completed successfully.
+2024-02-25T02:29:32.411Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:29:32.472Z - Connected to PostgreSQL
+2024-02-25T02:29:32.481Z - Server is running on port 3000
+2024-02-25T02:31:04.039Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:31:04.054Z - Database setup completed successfully.
+2024-02-25T02:31:04.060Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:31:04.140Z - Connected to PostgreSQL
+2024-02-25T02:31:04.150Z - Server is running on port 3000
+2024-02-25T02:56:14.667Z - Connected to PostgreSQL for initial setup
+2024-02-25T02:56:14.686Z - Database setup completed successfully.
+2024-02-25T02:56:14.693Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T02:56:14.757Z - Connected to PostgreSQL
+2024-02-25T02:56:14.768Z - Server is running on port 3000
+2024-02-25T03:06:12.905Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:06:12.924Z - Database setup completed successfully.
+2024-02-25T03:06:12.930Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:06:12.990Z - Connected to PostgreSQL
+2024-02-25T03:06:13.000Z - Server is running on port 3000
+2024-02-25T03:07:05.537Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:07:05.552Z - Database setup completed successfully.
+2024-02-25T03:07:05.559Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:07:05.625Z - Connected to PostgreSQL
+2024-02-25T03:07:05.636Z - Server is running on port 3000
+2024-02-25T03:08:46.357Z - User ID:
+2024-02-25T03:09:06.480Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:09:06.495Z - Database setup completed successfully.
+2024-02-25T03:09:06.501Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:09:06.562Z - Connected to PostgreSQL
+2024-02-25T03:09:06.574Z - Server is running on port 3000
+2024-02-25T03:10:49.245Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:10:49.260Z - Database setup completed successfully.
+2024-02-25T03:10:49.267Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:10:49.323Z - Connected to PostgreSQL
+2024-02-25T03:10:49.335Z - Server is running on port 3000
+2024-02-25T03:11:44.393Z - User ID:
+2024-02-25T03:11:57.146Z - Track Name:
+2024-02-25T03:11:57.146Z - Artists:
+2024-02-25T03:11:57.147Z - Track Name:
+2024-02-25T03:11:57.147Z - Artists:
+2024-02-25T03:11:57.148Z - Track Name:
+2024-02-25T03:11:57.149Z - Artists:
+2024-02-25T03:11:57.149Z - Track Name:
+2024-02-25T03:11:57.149Z - Artists:
+2024-02-25T03:11:57.150Z - Track Name:
+2024-02-25T03:11:57.150Z - Artists:
+2024-02-25T03:11:57.151Z - Track Name:
+2024-02-25T03:11:57.152Z - Artists:
+2024-02-25T03:11:57.152Z - Track Name:
+2024-02-25T03:11:57.152Z - Artists:
+2024-02-25T03:11:57.153Z - Track Name:
+2024-02-25T03:11:57.153Z - Artists:
+2024-02-25T03:11:57.154Z - Track Name:
+2024-02-25T03:11:57.154Z - Artists:
+2024-02-25T03:11:57.155Z - Track Name:
+2024-02-25T03:11:57.155Z - Artists:
+2024-02-25T03:11:57.156Z - Track Name:
+2024-02-25T03:11:57.156Z - Artists:
+2024-02-25T03:11:57.156Z - Track Name:
+2024-02-25T03:11:57.157Z - Artists:
+2024-02-25T03:11:57.157Z - Track Name:
+2024-02-25T03:11:57.158Z - Artists:
+2024-02-25T03:11:57.158Z - Track Name:
+2024-02-25T03:11:57.158Z - Artists:
+2024-02-25T03:11:57.159Z - Track Name:
+2024-02-25T03:11:57.159Z - Artists:
+2024-02-25T03:11:57.160Z - Track Name:
+2024-02-25T03:11:57.160Z - Artists:
+2024-02-25T03:11:57.160Z - Track Name:
+2024-02-25T03:11:57.161Z - Artists:
+2024-02-25T03:11:57.161Z - Track Name:
+2024-02-25T03:11:57.161Z - Artists:
+2024-02-25T03:11:57.162Z - Track Name:
+2024-02-25T03:11:57.162Z - Artists:
+2024-02-25T03:11:57.162Z - Track Name:
+2024-02-25T03:11:57.163Z - Artists:
+2024-02-25T03:11:57.171Z - Recently Played Tracks:
+2024-02-25T03:11:57.177Z - recently_played_tracks table truncated successfully.
+2024-02-25T03:11:57.697Z - Recommended Tracks:
+2024-02-25T03:15:11.146Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:15:11.161Z - Database setup completed successfully.
+2024-02-25T03:15:11.167Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:15:11.228Z - Connected to PostgreSQL
+2024-02-25T03:15:11.238Z - Server is running on port 3000
+2024-02-25T03:15:29.599Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:15:29.612Z - Database setup completed successfully.
+2024-02-25T03:15:29.618Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:15:29.673Z - Connected to PostgreSQL
+2024-02-25T03:15:29.681Z - Server is running on port 3000
+2024-02-25T03:17:41.152Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:17:41.168Z - Database setup completed successfully.
+2024-02-25T03:17:41.174Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:17:41.238Z - Connected to PostgreSQL
+2024-02-25T03:17:55.905Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:17:55.920Z - Database setup completed successfully.
+2024-02-25T03:17:55.927Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:17:55.988Z - Connected to PostgreSQL
+2024-02-25T03:17:55.998Z - Server is running on port 3000
+2024-02-25T03:19:41.456Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:19:41.472Z - Database setup completed successfully.
+2024-02-25T03:19:41.478Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:19:41.537Z - Connected to PostgreSQL
+2024-02-25T03:19:41.547Z - Server is running on port 3000
+2024-02-25T03:20:12.883Z - User ID:
+2024-02-25T03:20:13.252Z - Track Name:
+2024-02-25T03:20:13.253Z - Artists:
+2024-02-25T03:20:13.253Z - Track Name:
+2024-02-25T03:20:13.254Z - Artists:
+2024-02-25T03:20:13.254Z - Track Name:
+2024-02-25T03:20:13.255Z - Artists:
+2024-02-25T03:20:13.255Z - Track Name:
+2024-02-25T03:20:13.255Z - Artists:
+2024-02-25T03:20:13.256Z - Track Name:
+2024-02-25T03:20:13.257Z - Artists:
+2024-02-25T03:20:13.258Z - Track Name:
+2024-02-25T03:20:13.258Z - Artists:
+2024-02-25T03:20:13.259Z - Track Name:
+2024-02-25T03:20:13.259Z - Artists:
+2024-02-25T03:20:13.260Z - Track Name:
+2024-02-25T03:20:13.260Z - Artists:
+2024-02-25T03:20:13.261Z - Track Name:
+2024-02-25T03:20:13.261Z - Artists:
+2024-02-25T03:20:13.261Z - Track Name:
+2024-02-25T03:20:13.262Z - Artists:
+2024-02-25T03:20:13.262Z - Track Name:
+2024-02-25T03:20:13.263Z - Artists:
+2024-02-25T03:20:13.263Z - Track Name:
+2024-02-25T03:20:13.264Z - Artists:
+2024-02-25T03:20:13.264Z - Track Name:
+2024-02-25T03:20:13.265Z - Artists:
+2024-02-25T03:20:13.265Z - Track Name:
+2024-02-25T03:20:13.265Z - Artists:
+2024-02-25T03:20:13.265Z - Track Name:
+2024-02-25T03:20:13.266Z - Artists:
+2024-02-25T03:20:13.266Z - Track Name:
+2024-02-25T03:20:13.266Z - Artists:
+2024-02-25T03:20:13.266Z - Track Name:
+2024-02-25T03:20:13.267Z - Artists:
+2024-02-25T03:20:13.267Z - Track Name:
+2024-02-25T03:20:13.267Z - Artists:
+2024-02-25T03:20:13.268Z - Track Name:
+2024-02-25T03:20:13.268Z - Artists:
+2024-02-25T03:20:13.268Z - Track Name:
+2024-02-25T03:20:13.268Z - Artists:
+2024-02-25T03:20:13.274Z - Recently Played Tracks:
+2024-02-25T03:20:13.308Z - recently_played_tracks table truncated successfully.
+2024-02-25T03:20:13.860Z - Recommended Tracks:
+2024-02-25T03:23:53.690Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:23:53.706Z - Database setup completed successfully.
+2024-02-25T03:23:53.712Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:23:53.771Z - Connected to PostgreSQL
+2024-02-25T03:24:04.075Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:24:04.088Z - Database setup completed successfully.
+2024-02-25T03:24:04.094Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:24:04.157Z - Connected to PostgreSQL
+2024-02-25T03:24:10.436Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:24:10.449Z - Database setup completed successfully.
+2024-02-25T03:24:10.455Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:24:10.511Z - Connected to PostgreSQL
+2024-02-25T03:24:18.678Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:24:18.692Z - Database setup completed successfully.
+2024-02-25T03:24:18.698Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:24:18.757Z - Connected to PostgreSQL
+2024-02-25T03:24:40.830Z - Connected to PostgreSQL for initial setup
+2024-02-25T03:24:40.844Z - Database setup completed successfully.
+2024-02-25T03:24:40.850Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T03:24:40.910Z - Connected to PostgreSQL
+2024-02-25T03:24:40.918Z - Server is running on port 3000
+2024-02-25T03:24:59.011Z - User ID:
+2024-02-25T03:24:59.438Z - Track Name:
+2024-02-25T03:24:59.439Z - Artists:
+2024-02-25T03:24:59.439Z - Track Name:
+2024-02-25T03:24:59.439Z - Artists:
+2024-02-25T03:24:59.440Z - Track Name:
+2024-02-25T03:24:59.440Z - Artists:
+2024-02-25T03:24:59.440Z - Track Name:
+2024-02-25T03:24:59.441Z - Artists:
+2024-02-25T03:24:59.441Z - Track Name:
+2024-02-25T03:24:59.441Z - Artists:
+2024-02-25T03:24:59.442Z - Track Name:
+2024-02-25T03:24:59.442Z - Artists:
+2024-02-25T03:24:59.442Z - Track Name:
+2024-02-25T03:24:59.443Z - Artists:
+2024-02-25T03:24:59.443Z - Track Name:
+2024-02-25T03:24:59.443Z - Artists:
+2024-02-25T03:24:59.444Z - Track Name:
+2024-02-25T03:24:59.444Z - Artists:
+2024-02-25T03:24:59.444Z - Track Name:
+2024-02-25T03:24:59.445Z - Artists:
+2024-02-25T03:24:59.445Z - Track Name:
+2024-02-25T03:24:59.445Z - Artists:
+2024-02-25T03:24:59.445Z - Track Name:
+2024-02-25T03:24:59.446Z - Artists:
+2024-02-25T03:24:59.446Z - Track Name:
+2024-02-25T03:24:59.446Z - Artists:
+2024-02-25T03:24:59.446Z - Track Name:
+2024-02-25T03:24:59.446Z - Artists:
+2024-02-25T03:24:59.447Z - Track Name:
+2024-02-25T03:24:59.447Z - Artists:
+2024-02-25T03:24:59.447Z - Track Name:
+2024-02-25T03:24:59.449Z - Artists:
+2024-02-25T03:24:59.450Z - Track Name:
+2024-02-25T03:24:59.451Z - Artists:
+2024-02-25T03:24:59.451Z - Track Name:
+2024-02-25T03:24:59.452Z - Artists:
+2024-02-25T03:24:59.452Z - Track Name:
+2024-02-25T03:24:59.453Z - Artists:
+2024-02-25T03:24:59.453Z - Track Name:
+2024-02-25T03:24:59.453Z - Artists:
+2024-02-25T03:24:59.463Z - Recently Played Tracks:
+2024-02-25T03:24:59.467Z - recently_played_tracks table truncated successfully.
+2024-02-25T03:24:59.997Z - Recommended Tracks:
+2024-02-25T03:25:00.033Z - recommended_tracks table truncated successfully.
+2024-02-25T05:29:33.702Z - User ID:
+2024-02-25T05:29:34.122Z - Track Name:
+2024-02-25T05:29:34.122Z - Artists:
+2024-02-25T05:29:34.123Z - Track Name:
+2024-02-25T05:29:34.123Z - Artists:
+2024-02-25T05:29:34.123Z - Track Name:
+2024-02-25T05:29:34.124Z - Artists:
+2024-02-25T05:29:34.124Z - Track Name:
+2024-02-25T05:29:34.124Z - Artists:
+2024-02-25T05:29:34.124Z - Track Name:
+2024-02-25T05:29:34.124Z - Artists:
+2024-02-25T05:29:34.125Z - Track Name:
+2024-02-25T05:29:34.125Z - Artists:
+2024-02-25T05:29:34.125Z - Track Name:
+2024-02-25T05:29:34.125Z - Artists:
+2024-02-25T05:29:34.125Z - Track Name:
+2024-02-25T05:29:34.126Z - Artists:
+2024-02-25T05:29:34.126Z - Track Name:
+2024-02-25T05:29:34.126Z - Artists:
+2024-02-25T05:29:34.126Z - Track Name:
+2024-02-25T05:29:34.127Z - Artists:
+2024-02-25T05:29:34.127Z - Track Name:
+2024-02-25T05:29:34.127Z - Artists:
+2024-02-25T05:29:34.127Z - Track Name:
+2024-02-25T05:29:34.127Z - Artists:
+2024-02-25T05:29:34.128Z - Track Name:
+2024-02-25T05:29:34.128Z - Artists:
+2024-02-25T05:29:34.128Z - Track Name:
+2024-02-25T05:29:34.128Z - Artists:
+2024-02-25T05:29:34.129Z - Track Name:
+2024-02-25T05:29:34.129Z - Artists:
+2024-02-25T05:29:34.129Z - Track Name:
+2024-02-25T05:29:34.129Z - Artists:
+2024-02-25T05:29:34.130Z - Track Name:
+2024-02-25T05:29:34.130Z - Artists:
+2024-02-25T05:29:34.130Z - Track Name:
+2024-02-25T05:29:34.130Z - Artists:
+2024-02-25T05:29:34.130Z - Track Name:
+2024-02-25T05:29:34.131Z - Artists:
+2024-02-25T05:29:34.131Z - Track Name:
+2024-02-25T05:29:34.131Z - Artists:
+2024-02-25T05:29:34.133Z - Recently Played Tracks:
+2024-02-25T05:29:34.166Z - recently_played_tracks table truncated successfully.
+2024-02-25T05:29:34.689Z - Recommended Tracks:
+2024-02-25T05:29:34.740Z - recommended_tracks table truncated successfully.
+2024-02-25T05:32:11.417Z - User ID:
+2024-02-25T05:32:11.825Z - Track Name:
+2024-02-25T05:32:11.825Z - Artists:
+2024-02-25T05:32:11.826Z - Track Name:
+2024-02-25T05:32:11.826Z - Artists:
+2024-02-25T05:32:11.826Z - Track Name:
+2024-02-25T05:32:11.826Z - Artists:
+2024-02-25T05:32:11.827Z - Track Name:
+2024-02-25T05:32:11.827Z - Artists:
+2024-02-25T05:32:11.827Z - Track Name:
+2024-02-25T05:32:11.827Z - Artists:
+2024-02-25T05:32:11.828Z - Track Name:
+2024-02-25T05:32:11.828Z - Artists:
+2024-02-25T05:32:11.828Z - Track Name:
+2024-02-25T05:32:11.828Z - Artists:
+2024-02-25T05:32:11.829Z - Track Name:
+2024-02-25T05:32:11.829Z - Artists:
+2024-02-25T05:32:11.829Z - Track Name:
+2024-02-25T05:32:11.830Z - Artists:
+2024-02-25T05:32:11.830Z - Track Name:
+2024-02-25T05:32:11.830Z - Artists:
+2024-02-25T05:32:11.830Z - Track Name:
+2024-02-25T05:32:11.830Z - Artists:
+2024-02-25T05:32:11.831Z - Track Name:
+2024-02-25T05:32:11.831Z - Artists:
+2024-02-25T05:32:11.831Z - Track Name:
+2024-02-25T05:32:11.831Z - Artists:
+2024-02-25T05:32:11.832Z - Track Name:
+2024-02-25T05:32:11.832Z - Artists:
+2024-02-25T05:32:11.832Z - Track Name:
+2024-02-25T05:32:11.832Z - Artists:
+2024-02-25T05:32:11.833Z - Track Name:
+2024-02-25T05:32:11.833Z - Artists:
+2024-02-25T05:32:11.833Z - Track Name:
+2024-02-25T05:32:11.833Z - Artists:
+2024-02-25T05:32:11.834Z - Track Name:
+2024-02-25T05:32:11.834Z - Artists:
+2024-02-25T05:32:11.834Z - Track Name:
+2024-02-25T05:32:11.834Z - Artists:
+2024-02-25T05:32:11.835Z - Track Name:
+2024-02-25T05:32:11.835Z - Artists:
+2024-02-25T05:32:11.837Z - Recently Played Tracks:
+2024-02-25T05:32:11.877Z - recently_played_tracks table truncated successfully.
+2024-02-25T05:32:12.306Z - Recommended Tracks:
+2024-02-25T05:32:12.346Z - recommended_tracks table truncated successfully.
+2024-02-25T05:32:47.055Z - User ID:
+2024-02-25T05:32:47.603Z - Track Name:
+2024-02-25T05:32:47.603Z - Artists:
+2024-02-25T05:32:47.603Z - Track Name:
+2024-02-25T05:32:47.604Z - Artists:
+2024-02-25T05:32:47.604Z - Track Name:
+2024-02-25T05:32:47.604Z - Artists:
+2024-02-25T05:32:47.605Z - Track Name:
+2024-02-25T05:32:47.605Z - Artists:
+2024-02-25T05:32:47.605Z - Track Name:
+2024-02-25T05:32:47.605Z - Artists:
+2024-02-25T05:32:47.605Z - Track Name:
+2024-02-25T05:32:47.606Z - Artists:
+2024-02-25T05:32:47.606Z - Track Name:
+2024-02-25T05:32:47.606Z - Artists:
+2024-02-25T05:32:47.606Z - Track Name:
+2024-02-25T05:32:47.607Z - Artists:
+2024-02-25T05:32:47.607Z - Track Name:
+2024-02-25T05:32:47.607Z - Artists:
+2024-02-25T05:32:47.607Z - Track Name:
+2024-02-25T05:32:47.607Z - Artists:
+2024-02-25T05:32:47.608Z - Track Name:
+2024-02-25T05:32:47.608Z - Artists:
+2024-02-25T05:32:47.608Z - Track Name:
+2024-02-25T05:32:47.608Z - Artists:
+2024-02-25T05:32:47.609Z - Track Name:
+2024-02-25T05:32:47.609Z - Artists:
+2024-02-25T05:32:47.609Z - Track Name:
+2024-02-25T05:32:47.609Z - Artists:
+2024-02-25T05:32:47.609Z - Track Name:
+2024-02-25T05:32:47.610Z - Artists:
+2024-02-25T05:32:47.610Z - Track Name:
+2024-02-25T05:32:47.610Z - Artists:
+2024-02-25T05:32:47.610Z - Track Name:
+2024-02-25T05:32:47.611Z - Artists:
+2024-02-25T05:32:47.611Z - Track Name:
+2024-02-25T05:32:47.611Z - Artists:
+2024-02-25T05:32:47.611Z - Track Name:
+2024-02-25T05:32:47.612Z - Artists:
+2024-02-25T05:32:47.612Z - Track Name:
+2024-02-25T05:32:47.612Z - Artists:
+2024-02-25T05:32:47.614Z - Recently Played Tracks:
+2024-02-25T05:32:47.654Z - recently_played_tracks table truncated successfully.
+2024-02-25T05:32:48.137Z - Recommended Tracks:
+2024-02-25T05:32:48.154Z - recommended_tracks table truncated successfully.
+2024-02-25T05:33:27.416Z - User ID:
+2024-02-25T05:33:27.730Z - Track Name:
+2024-02-25T05:33:27.731Z - Artists:
+2024-02-25T05:33:27.731Z - Track Name:
+2024-02-25T05:33:27.731Z - Artists:
+2024-02-25T05:33:27.732Z - Track Name:
+2024-02-25T05:33:27.732Z - Artists:
+2024-02-25T05:33:27.732Z - Track Name:
+2024-02-25T05:33:27.732Z - Artists:
+2024-02-25T05:33:27.733Z - Track Name:
+2024-02-25T05:33:27.733Z - Artists:
+2024-02-25T05:33:27.733Z - Track Name:
+2024-02-25T05:33:27.733Z - Artists:
+2024-02-25T05:33:27.734Z - Track Name:
+2024-02-25T05:33:27.734Z - Artists:
+2024-02-25T05:33:27.734Z - Track Name:
+2024-02-25T05:33:27.734Z - Artists:
+2024-02-25T05:33:27.734Z - Track Name:
+2024-02-25T05:33:27.735Z - Artists:
+2024-02-25T05:33:27.735Z - Track Name:
+2024-02-25T05:33:27.735Z - Artists:
+2024-02-25T05:33:27.735Z - Track Name:
+2024-02-25T05:33:27.735Z - Artists:
+2024-02-25T05:33:27.736Z - Track Name:
+2024-02-25T05:33:27.736Z - Artists:
+2024-02-25T05:33:27.736Z - Track Name:
+2024-02-25T05:33:27.736Z - Artists:
+2024-02-25T05:33:27.737Z - Track Name:
+2024-02-25T05:33:27.737Z - Artists:
+2024-02-25T05:33:27.737Z - Track Name:
+2024-02-25T05:33:27.738Z - Artists:
+2024-02-25T05:33:27.738Z - Track Name:
+2024-02-25T05:33:27.738Z - Artists:
+2024-02-25T05:33:27.738Z - Track Name:
+2024-02-25T05:33:27.739Z - Artists:
+2024-02-25T05:33:27.739Z - Track Name:
+2024-02-25T05:33:27.739Z - Artists:
+2024-02-25T05:33:27.739Z - Track Name:
+2024-02-25T05:33:27.739Z - Artists:
+2024-02-25T05:33:27.740Z - Track Name:
+2024-02-25T05:33:27.740Z - Artists:
+2024-02-25T05:33:27.742Z - Recently Played Tracks:
+2024-02-25T05:33:27.782Z - recently_played_tracks table truncated successfully.
+2024-02-25T05:33:28.305Z - Recommended Tracks:
+2024-02-25T05:33:28.357Z - recommended_tracks table truncated successfully.
+2024-02-25T05:57:51.298Z - Connected to PostgreSQL for initial setup
+2024-02-25T05:57:51.314Z - Database setup completed successfully.
+2024-02-25T05:57:51.321Z - Disconnected from PostgreSQL for initial setup
+2024-02-25T05:57:51.396Z - Connected to PostgreSQL
+2024-02-25T05:57:51.405Z - Server is running on port 3000

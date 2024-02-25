@@ -10,6 +10,7 @@ const crypto = require('crypto');
 const request = require('request');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 //const fetch = require('node-fetch').default;
 
 require('dotenv').config();
@@ -41,6 +42,8 @@ const clientSecret = "2b7d1892b983458cb441ff4ba371dd7b";
 // Create an Express app
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+app.use(cors());
 
 const client = new Client({
     user: 'spotify_suser',
