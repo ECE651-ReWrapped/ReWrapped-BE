@@ -6,8 +6,9 @@ const register = async (req, res) => {
   const { email, name, password, confirmPassword } = req.body;
 
   try {
-    const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
+    const user = await pool.query("SELECT * FROM users WHERE user_email = $1 OR user_name = $2", [
       email,
+      name
     ]);
 
     if (user.rows.length > 0) {
@@ -43,7 +44,7 @@ const login = async (req, res) => {
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json({message: "Invalid Credentials"});
+      return res.status(401).json({message: "User Does not Exist"});
     }
 
     const validPassword = await bycrypt.compare(
@@ -52,7 +53,7 @@ const login = async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({message: "Invalid Credentials"});
+      return res.status(401).json({message: "Incorrect Password"});
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
