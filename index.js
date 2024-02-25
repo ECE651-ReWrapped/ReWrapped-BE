@@ -42,7 +42,6 @@ const clientSecret = "2b7d1892b983458cb441ff4ba371dd7b";
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Configure PostgreSQL client
 const client = new Client({
     user: 'spotify_suser',
     host: 'localhost',
@@ -51,10 +50,16 @@ const client = new Client({
     port: 5432,
 });
 
+/// Temporary PostgreSQL client for initial setup
+const setupClient = new Client({
+    user: 'postgres', // Use your PostgreSQL superuser here
+    host: 'localhost',
+    password: 'ece651wrapped', // Use your PostgreSQL superuser password here
+    port: 5432,
+});
+
 // Connect to PostgreSQL
-client.connect()
-    .then(() => console.log('Connected to PostgreSQL'))
-    .catch(err => console.error(`PostgreSQL connection error: ${err}`));
+
 
 // Configure Spotify API
 const spotifyApi = new SpotifyWebApi({
@@ -347,7 +352,6 @@ app.get('/callback', function (req, res) {
 
                                             }
                                         });
-
                                     }
 
                                     else {
@@ -466,31 +470,7 @@ process.on('exit', () => {
 });
 // Close the log stream when your program exits
 // Function to set up the database (create user, database, etc.)
-async function setupDatabase() {
-    try {
-        // Check if the user exists, create if not
-        const checkUserQuery = "SELECT 1 FROM pg_user WHERE usename = 'spotify_suser';";
-        const userExists = (await client.query(checkUserQuery)).rows.length > 0;
 
-        if (!userExists) {
-            // Create the superuser with the desired password
-            await client.query("CREATE USER spotify_suser WITH PASSWORD 'securepassword123' SUPERUSER;");
-        }
-
-        // Check if the database exists, create if not
-        const checkDbQuery = "SELECT 1 FROM pg_database WHERE datname = 'db_spotify';";
-        const dbExists = (await client.query(checkDbQuery)).rows.length > 0;
-
-        if (!dbExists) {
-            // Create the database and set spotify_suser as the owner
-            await client.query("CREATE DATABASE db_spotify WITH OWNER = spotify_suser;");
-        }
-
-        console.log('Database setup completed successfully.');
-    } catch (error) {
-        throw new Error(`Error setting up the database: ${error.message}`);
-    }
-}
 
 // Function to create tables in the specified database
 async function createTables() {
@@ -521,7 +501,7 @@ async function createTables() {
 async function startApp() {
     try {
         // Setup the database (create user, database, etc.)
-        await setupDatabase();
+        //await setupDatabase();
 
         // Create tables in the database
         await createTables();
@@ -536,4 +516,55 @@ async function startApp() {
 }
 // Start the server
 // Run the application
-startApp();
+
+// Function to create user and database
+async function setupDatabase() {
+    try {
+        // Connect to PostgreSQL for initial setup
+        await setupClient.connect();
+        console.log('Connected to PostgreSQL for initial setup');
+
+        // Check if the user exists, create if not
+        const checkUserQuery = "SELECT 1 FROM pg_user WHERE usename = 'spotify_suser';";
+        const userExists = (await setupClient.query(checkUserQuery)).rows.length > 0;
+
+        if (!userExists) {
+            // Create the superuser with the desired password
+            await setupClient.query("CREATE USER spotify_suser WITH PASSWORD 'securepassword123' SUPERUSER;");
+        }
+
+        // Check if the database exists, create if not
+        const checkDbQuery = "SELECT 1 FROM pg_database WHERE datname = 'db_spotify';";
+        const dbExists = (await setupClient.query(checkDbQuery)).rows.length > 0;
+
+        if (!dbExists) {
+            // Create the database and set spotify_suser as the owner
+            await setupClient.query("CREATE DATABASE db_spotify WITH OWNER = spotify_suser;");
+        }
+
+        console.log('Database setup completed successfully.');
+    } catch (error) {
+        throw new Error(`Error setting up the database: ${error.message}`);
+    } finally {
+        // Disconnect the setup client
+        await setupClient.end();
+        console.log('Disconnected from PostgreSQL for initial setup');
+    }
+}
+
+// Call the setupDatabase function to create user and database
+setupDatabase()
+    .then(() => {
+        // After user and database creation, connect with the main client for the rest of the application
+        client.connect()
+            .then(() => {
+                console.log('Connected to PostgreSQL');
+
+                // Continue with the rest of your application setup
+                startApp();
+            })
+            .catch(err => console.error(`PostgreSQL connection error: ${err}`));
+    })
+    .catch(error => {
+        console.error('Error during initial setup:', error.message);
+    });
