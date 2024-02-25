@@ -81,7 +81,7 @@ const deleteUser = async (req, res) => {
     //If User exists --> Delete
     // const deleteUser = await pool.query("DELETE FROM users WHERE user_email = $1", [email])
     await pool.query("UPDATE users SET user_email = $1,user_password = $2, user_name = $3, is_deleted = $4 WHERE user_id = $5", [
-      "","","",true, userId
+      "","","",true, user?._id
     ]);
 
     return res.status(200).json({message: 'User successfully deleted'})
