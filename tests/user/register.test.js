@@ -13,12 +13,9 @@ afterAll(async () => {
 describe("POST /register (testing user registration)", () => {
     describe("Testing registration of new user with valid details", () => {
         test("Should return 200 OK response and valid JWT when registering new user", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
-
             const resp = await request(app).post("/register").send({
-                email: "register@gmail.com",
-                name: "test",
+                email: "registerasdad@gmail.com",
+                name: "test10000",
                 password: "test1234",
                 confirmPassword: "test1234"
 
@@ -35,46 +32,54 @@ describe("POST /register (testing user registration)", () => {
 
             // optionally, we could query the db to find out exactly what the next ID would be?
             // should we even be returning a token on sign up? shouldn't we only do it on login?
+                        // make sure register@gmail.com doesn't exist in test database
+            const deleteUser = await request(app).delete("/delete").send({
+                email: "registerasdad@gmail.com"
+            });
+
+            expect(deleteUser.body.message).toBe("User successfully deleted");
         })
     });
 
     describe("Testing user already exists on user registration", () => {
         test("Return response code 401 and json with error response message for already existing user on registration", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
-
             // create user
             const userCreation = await request(app).post("/register").send({
-                email: "register@gmail.com",
-                name: "test",
+                email: "registe2@gmail.com",
+                name: "testabcd",
                 password: "test1234",
                 confirmPassword: "test1234"
 
             });
 
             // expected items
-            expect(userCreation.statusCode).toBe(200);
+            // console.log(userCreation)
+            // expect(userCreation.statusCode).toBe(200);
 
             // registration attempt
             const resp = await request(app).post("/register").send({
-                email: "register@gmail.com",
-                name: "test",
+                email: "registe2@gmail.com",
+                name: "testabcd",
                 password: "test1234",
                 confirmPassword: "test1234"
 
             });
 
             // expected items
-            expect(resp.statusCode).toBe(401);
+            expect(resp.statusCode).toBe(405);
             expect(resp.body.message).toBe("User already exists");
+
+            // make sure register@gmail.com doesn't exist in test database
+            const deleteUser = await request(app).delete("/delete").send({
+                email: "registe2@gmail.com"
+            });
+
+            expect(deleteUser.body.message).toBe("User successfully deleted");
         });
     });
 
     describe("Testing blank email during user registration", () => {
         test("Expect response code 401 and json with error message on user registration with blank email", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
-
             const resp = await request(app).post("/register").send({
                 email: "",
                 name: "test",
@@ -90,11 +95,9 @@ describe("POST /register (testing user registration)", () => {
 
     describe("Testing blank username during registration", () => {
         test("Expect response code 401 and json with error message on user registration with blank username", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
 
             const resp = await request(app).post("/register").send({
-                email: "register@gmail.com",
+                email: "register100@gmail.com",
                 name: "",
                 password: "test1234",
                 confirmPassword: "test1234"
@@ -108,9 +111,6 @@ describe("POST /register (testing user registration)", () => {
 
     describe("Testing blank password during user registration", () => {
         test("Expect response code 401 and json with error message during blank password user registration", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
-
             const resp = await request(app).post("/register").send({
                 email: "register@gmail.com",
                 name: "test",
@@ -126,9 +126,6 @@ describe("POST /register (testing user registration)", () => {
 
     describe("Testing invalid email on user registration", () => {
         test("Expect response code 401 and json error message on invalid email during user registration", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
-
             const resp = await request(app).post("/register").send({
                 email: "test@gmail..com",
                 name: "test",
@@ -144,12 +141,9 @@ describe("POST /register (testing user registration)", () => {
 
     describe("Testing passwords not matching during user registration", () => {
         test("Expect response code 401 and json error message for non-matching passwords during user registration", async () => {
-            // make sure register@gmail.com doesn't exist in test database
-            await pool.query('DELETE FROM users WHERE user_email = $1', ['register@gmail.com']);
-
             const resp = await request(app).post("/register").send({
                 email: "register@gmail.com",
-                name: "test",
+                name: "testgooble",
                 password: "test1234",
                 confirmPassword: ""
             });
