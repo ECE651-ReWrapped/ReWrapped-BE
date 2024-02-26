@@ -62,9 +62,12 @@ const login = async (req, res) => {
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
     res.cookie(String(user.rows[0].user_id), jwtToken, {
+      domain: 'localhost',
       path: '/',
+      expires: new Date(Date.now() + 1000 * 86400 * 7),
       httpOnly: true,
-      sameSite: 'lax'
+      sameSite: 'lax',
+      secure: false,
     })
 
     console.log("Cookies set in response:");
@@ -118,10 +121,15 @@ const logout = async (req, res, next) => {
 
     // expected logout conditions; clear cookies and return
     res.clearCookie(`${user.user_id}`, {
-      domain: 'www.example.com',
-      path: '/'
-    })
-    req, cookies[`${user.user_id}`] = '' // apparently this is read only, so this line might not be doing anything
+      domain: 'localhost',
+      path: '/',
+      // Set the expires option to a past date to invalidate the cookie
+      expires: new Date(0),
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: false,
+    });
+    req, cookies[`${user.user_id}`] = ''; // apparently this is read only, so this line might not be doing anything
 
     console.log("Cookies in response: \n");
     console.log(res.cookies);
@@ -137,4 +145,3 @@ exports.register = register;
 exports.login = login;
 exports.deleteUser = deleteUser
 exports.logout = logout
-
