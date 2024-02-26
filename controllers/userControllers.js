@@ -13,11 +13,11 @@ const register = async (req, res) => {
     ]);
 
     if (user.rows.length > 0) {
-      return res.status(405).json({message: "User already exists"});
+      return res.status(405).json({ message: "User already exists" });
     }
 
     if (password !== confirmPassword) {
-      return res.status(401).json({message: "Passwords do not match"});
+      return res.status(401).json({ message: "Passwords do not match" });
     }
 
     const salt = await bycrypt.genSalt(10);
@@ -39,13 +39,16 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
+  console.log("Cookies in request: \n");
+  console.log(req.cookies);
+
   try {
     const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
       email,
     ]);
 
     if (user.rows.length === 0) {
-      return res.status(401).json({message: "User Does not Exist"});
+      return res.status(401).json({ message: "User Does not Exist" });
     }
 
     const validPassword = await bycrypt.compare(
@@ -54,7 +57,7 @@ const login = async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({message: "Incorrect Password"});
+      return res.status(401).json({ message: "Incorrect Password" });
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
@@ -64,28 +67,31 @@ const login = async (req, res) => {
       sameSite: 'lax'
     })
 
-    return res.status(200).json({message: 'Succefully Logged In' ,token: jwtToken, user });
+    console.log("Cookies set in response:");
+    console.log(res.get('Set-Cookie'));
+
+    return res.status(200).json({ message: 'Succefully Logged In', token: jwtToken, user });
   } catch (err) {
     return res.status(500).send("Server Error");
   }
 };
 
 const deleteUser = async (req, res) => {
-  const {email} = req.body
+  const { email } = req.body
 
   try {
     const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [
       email,
     ]);
 
-    if(user.rows.length == 0) {
-      return res.status(401).json({message: 'User does not Exist'})
+    if (user.rows.length == 0) {
+      return res.status(401).json({ message: 'User does not Exist' })
     }
 
     //If User exists --> Delete
     const deleteUser = await pool.query("DELETE FROM users WHERE user_email = $1", [email])
 
-    return res.status(200).json({message: 'User successfully deleted'})
+    return res.status(200).json({ message: 'User successfully deleted' })
 
   } catch (err) {
     return res.status(500).send("Server Error")
@@ -94,18 +100,36 @@ const deleteUser = async (req, res) => {
 
 const logout = async (req, res, next) => {
   const cookies = req.headers.cookie
-  const token = cookies.split('=')[i]
+  const token = cookies ? cookies.split('=')[1] : null;
 
-  if(!token) {
-    res.status(404).json({message: 'No Token Found'})
+  console.log("Cookies in request: \n");
+  console.log(req.cookies);
+
+  if (!token) {
+    // handle this scenario accordingly
+    return res.status(404).json({ message: 'No Token Found' })
   }
-  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err) => {
-    if(err) {
-      return res.status(400).json({message: "Authentication Failed"})
+
+  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+    if (err) {
+      // handle scenario, flag suspicious activity?
+      return res.status(400).json({ message: "Authentication Failed" })
     }
-    res.clearCookie(`${user.user_id}`)
-    req,cookies[`${user.user_id}`] = ''
-    return res.status(200).json({message: "Successfully Logged out"})
+
+    // expected logout conditions; clear cookies and return
+    res.clearCookie(`${user.user_id}`, {
+      domain: 'www.example.com',
+      path: '/'
+    })
+    req, cookies[`${user.user_id}`] = '' // apparently this is read only, so this line might not be doing anything
+
+    console.log("Cookies in response: \n");
+    console.log(res.cookies);
+
+    console.log("Cookies set in response:");
+    console.log(res.get('Set-Cookie'));
+
+    return res.status(200).json({ message: "Successfully Logged out" })
   })
 }
 
