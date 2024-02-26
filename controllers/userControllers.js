@@ -1,6 +1,7 @@
 const pool = require("../db");
 const bycrypt = require("bcryptjs");
 const jwtGenerator = require("../utils/jwtGenerator");
+const jwt = require('jsonwebtoken')
 
 const register = async (req, res) => {
   const { email, name, password, confirmPassword } = req.body;
@@ -57,8 +58,13 @@ const login = async (req, res) => {
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
+    res.cookie(String(user.rows[0].user_id), jwtToken, {
+      path: '/',
+      httpOnly: true,
+      sameSite: 'lax'
+    })
 
-    return res.status(200).json({ token: jwtToken });
+    return res.status(200).json({message: 'Succefully Logged In' ,token: jwtToken, user });
   } catch (err) {
     return res.status(500).send("Server Error");
   }
@@ -86,8 +92,25 @@ const deleteUser = async (req, res) => {
   }
 }
 
+const logout = async (req, res, next) => {
+  const cookies = req.headers.cookie
+  const token = cookies.split('=')[i]
+
+  if(!token) {
+    res.status(404).json({message: 'No Token Found'})
+  }
+  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err) => {
+    if(err) {
+      return res.status(400).json({message: "Authentication Failed"})
+    }
+    res.clearCookie(`${user.user_id}`)
+    req,cookies[`${user.user_id}`] = ''
+    return res.status(200).json({message: "Successfully Logged out"})
+  })
+}
+
 exports.register = register;
 exports.login = login;
 exports.deleteUser = deleteUser
-
+exports.logout = logout
 
