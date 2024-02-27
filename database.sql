@@ -1,7 +1,7 @@
 -- CREATE DATABASE ReWrapped;
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-drop table if exists users;
+-- drop table if exists users;
 
 CREATE TABLE users(
   user_id uuid DEFAULT uuid_generate_v4(),
