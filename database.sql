@@ -11,4 +11,10 @@ CREATE TABLE users(
   PRIMARY KEY(user_id)
 );
 
--- INSERT INTO users (user_name, user_email, user_password) VALUES ('henry', 'henryly213@gmail.com', 'kthl8822');
+-- dev accounts
+
+
+-- test users (https://temp-mail.org/en/ if needed)
+INSERT INTO users (user_name, user_email, user_password) VALUES ('test', 'test@gmail.com', 'test123');
+INSERT INTO users (user_name, user_email, user_password) VALUES ('testfollower', 'testfollower@gmail.com', 'test123');
+INSERT INTO users (user_name, user_email, user_password) VALUES ('testfriend', 'testfriend@gmail.com', 'test123');
