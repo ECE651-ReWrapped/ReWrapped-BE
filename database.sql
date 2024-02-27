@@ -18,3 +18,8 @@ CREATE TABLE users(
 INSERT INTO users (user_name, user_email, user_password) VALUES ('test', 'test@gmail.com', 'test123');
 INSERT INTO users (user_name, user_email, user_password) VALUES ('testfollower', 'testfollower@gmail.com', 'test123');
 INSERT INTO users (user_name, user_email, user_password) VALUES ('testfriend', 'testfriend@gmail.com', 'test123');
+
+-- Add user_reset_token and user_reset_token_exp columns
+ALTER TABLE users
+ADD user_reset_token VARCHAR(255) UNIQUE,
+ADD user_reset_token_exp DATE;
