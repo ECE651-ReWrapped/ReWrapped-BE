@@ -129,7 +129,7 @@ const logout = async (req, res, next) => {
       sameSite: 'lax',
       secure: false,
     });
-    req, cookies[`${user.user_id}`] = ''; // apparently this is read only, so this line might not be doing anything
+    req.cookies[`${user.user_id}`] = ''; // apparently this is read only, so this line might not be doing anything
 
     console.log("Cookies in response: \n");
     console.log(res.cookies);
