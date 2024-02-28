@@ -18,6 +18,6 @@ router.post("/register", validInfo, register);
 router.post("/login", validInfo, login);
 router.delete("/delete", deleteUser);
 router.post("/logout", logout);
-router.get("verifyToken", verifyToken);
+router.get("/verifyToken", verifyToken);
 
 module.exports = router;
