@@ -65,7 +65,7 @@ const validateToken = async (req, res) => {
     // find token in db
     try {
         const user = await pool.query("SELECT * FROM users WHERE user_reset_token = $1", [ token ]);
-        if (!user) {
+        if (user.rows.length === 0) {
             return res.status(405).json({message: "Invalid token!"}); 
         }
         // token validated
