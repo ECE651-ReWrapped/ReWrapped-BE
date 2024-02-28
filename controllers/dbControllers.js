@@ -29,20 +29,17 @@ const checkUserEmail = async (req, res) => {
             } 
             const token = buff.toString('hex');
             // store token in database (resetToken: String, resetTokenExpiration: Date)
-            pool.query("UPDATE users SET user_reset_token = $1, user_reset_token_exp = $2 WHERE user_email = $3", [
+            pool.query("UPDATE users SET user_reset_token = $1 WHERE user_email = $2", [
                 token,
-                Date.now() + 3600000, // 1 hr  
-                email,
+                email
             ]);
             // send link in an email to the user with token
             const mailOptions = {
                 from: process.env.EMAIL_ID,
                 to: email,
                 subject: 'Reset Password',
-                html: `
-                    <p>You requested a password reset!</p>
-                    <p>Click this <a href="http://localhost:6001/reset-password/${token}">link</a> to set a new password.</p>
-                `
+                html: `<p>You requested a password reset!</p>
+                    <p>Click this <a href="${process.env.CLIENT_LOCAL_URL}/reset-password/${token}">link</a> to set a new password.</p>`
             };
 
             transporter.sendMail(mailOptions, (error, info) => {
@@ -62,11 +59,27 @@ const checkUserEmail = async (req, res) => {
     }
 };
 
+const validateToken = async (req, res) => {
+    const token = req.params.token;
+    
+    // find token in db
+    try {
+        const user = await pool.query("SELECT * FROM users WHERE user_reset_token = $1", [ token ]);
+        if (!user) {
+            return res.status(405).json({message: "Invalid token!"}); 
+        }
+        // token validated
+        return res.status(200).json({ message: "Token is valid" });
+    } catch (err) {
+        return res.status(500).send("Server Error");
+    }
+};
+
 const setNewPassword = async (req, res) => {
-    const { email, password, confirmPassword } = req.body;
+    const { urlToken, password, confirmPassword } = req.body;
 
     try {
-        const user = await pool.query("SELECT * FROM users WHERE user_email = $1", [email]);
+        const user = await pool.query("SELECT * FROM users WHERE user_reset_token = $1", [urlToken]);
 
         if (user.rows.length === 0) {
             return res.status(405).json({message: "User Does not Exist"}); 
@@ -81,9 +94,9 @@ const setNewPassword = async (req, res) => {
         const bcryptPassword = await bycrypt.hash(password, salt);
 
         // Update the user's password in the database
-        await pool.query("UPDATE users SET user_password = $1 WHERE user_email = $2", [
+        await pool.query("UPDATE users SET user_password = $1 WHERE user_reset_token = $2", [
             bcryptPassword,
-            email,
+            urlToken,
         ]);
 
         return res.status(200).json({ message: "Password updated successfully" });
@@ -95,3 +108,4 @@ const setNewPassword = async (req, res) => {
 
 exports.checkUserEmail = checkUserEmail;
 exports.setNewPassword = setNewPassword;
+exports.validateToken = validateToken;

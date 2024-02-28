@@ -12,6 +12,7 @@ CREATE TABLE users(
 );
 
 -- dev accounts
+INSERT INTO users (user_name, user_email, user_password) VALUES ('prerona', 'p2ghosh@uwaterloo.ca', 'Waterloo');
 
 
 -- test users (https://temp-mail.org/en/ if needed)
@@ -21,5 +22,4 @@ INSERT INTO users (user_name, user_email, user_password) VALUES ('testfriend', '
 
 -- Add user_reset_token and user_reset_token_exp columns
 ALTER TABLE users
-ADD user_reset_token VARCHAR(255) UNIQUE,
-ADD user_reset_token_exp DATE;
+ADD user_reset_token VARCHAR(255) UNIQUE;
