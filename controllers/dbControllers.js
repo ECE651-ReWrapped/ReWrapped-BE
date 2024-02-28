@@ -94,13 +94,21 @@ const setNewPassword = async (req, res) => {
         const bcryptPassword = await bycrypt.hash(password, salt);
 
         // Update the user's password in the database
-        await pool.query("UPDATE users SET user_password = $1 WHERE user_reset_token = $2", [
-            bcryptPassword,
-            urlToken,
-        ]);
-
+        try {
+            await pool.query("UPDATE users SET user_password = $1 WHERE user_reset_token = $2", [
+                bcryptPassword,
+                urlToken,
+            ]);
+            // remove token from database upon successful update
+            await pool.query("UPDATE users SET user_password = $1, user_reset_token = NULL WHERE user_reset_token = $2", [
+                bcryptPassword,
+                urlToken,
+            ]);
+        } catch (err) {
+            return res.status(500).send("Server Error");
+        }
+        
         return res.status(200).json({ message: "Password updated successfully" });
-
     } catch (err) {
         return res.status(500).send("Server Error");
     }
