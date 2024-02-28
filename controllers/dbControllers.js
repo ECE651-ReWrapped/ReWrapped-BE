@@ -49,11 +49,7 @@ const checkUserEmail = async (req, res) => {
                 }
                 return res.status(200).json({ message: 'User has an account and email sent' });
             });
-        });
-
-        
-        
-        
+        });  
     } catch (err) {
         return res.status(500).send("Server Error");
     }
