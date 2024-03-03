@@ -7,6 +7,7 @@ const {
   verifyToken,
 } = require("../controllers/userControllers");
 const { checkUserEmail, setNewPassword, validateToken } = require('../controllers/dbControllers');
+const { followUser } = require('../controllers/socialControllers');
 
 // middleware
 const validInfo = require("../middleware/validInfo");
@@ -23,5 +24,6 @@ router.get("/verifyToken", verifyToken);
 router.post('/reset-password', validInfo, checkUserEmail);
 router.put('/reset-password', setNewPassword);
 router.get('/reset-password/:token', validateToken);
+router.post('/followUser', followUser);
 
 module.exports = router;

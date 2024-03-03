@@ -92,7 +92,7 @@ const login = async (req, res) => {
 
     return res
       .status(200)
-      .json({ message: "Succefully Logged In", token: jwtToken, user });
+      .json({ message: "Successfully Logged In", token: jwtToken, user });
   } catch (err) {
     return res.status(500).send("Server Error");
   }
