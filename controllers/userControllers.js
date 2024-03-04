@@ -149,7 +149,7 @@ const logout = async (req, res) => {
 
 const verifyToken = async (req, res) => {
   const cookies = req.headers.cookie;
-  const token = cookies.split("=")[1];
+  const token = cookies ? cookies.split("=")[1] : null;
 
   if (!token) {
     res.status(404).json({ message: "No Token Found" });
@@ -160,6 +160,13 @@ const verifyToken = async (req, res) => {
     }
     return res.status(200).json({ auth: true });
   });
+};
+
+const searchUser = async (req, res) => {
+  try {
+  } catch (err) {
+    console.error(err);
+  }
 };
 
 exports.register = register;
