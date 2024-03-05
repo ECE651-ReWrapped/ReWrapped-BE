@@ -16,7 +16,7 @@ const followUser = async (req, res) => {
         console.log(err.message);
 
         if (err.code == '23505') {
-            return res.status(401).json({ message: "You are already following this user!"});
+            return res.status(401).json({ message: "User is already followed."});
         }
 
         return res.status(401).json({ message: "Something went wrong!"});
