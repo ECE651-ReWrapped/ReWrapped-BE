@@ -164,6 +164,8 @@ const verifyToken = async (req, res) => {
 
 const searchUser = async (req, res) => {
   try {
+    const { query } = req.body;
+    console.log(query);
   } catch (err) {
     console.error(err);
   }
@@ -174,3 +176,4 @@ exports.login = login;
 exports.deleteUser = deleteUser;
 exports.logout = logout;
 exports.verifyToken = verifyToken;
+exports.searchUser = searchUser;
