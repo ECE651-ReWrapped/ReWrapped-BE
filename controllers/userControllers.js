@@ -166,8 +166,17 @@ const searchUser = async (req, res) => {
   try {
     const { query } = req.body;
     console.log(query);
+
+    const sql =
+      "SELECT * FROM users WHERE user_name ILIKE $1 OR user_email ILIKE $1";
+    const values = [`%${query}%`];
+
+    const results = await pool.query(sql, values);
+    console.log(results.rows);
+    return res.status(200).json(results.rows);
   } catch (err) {
     console.error(err);
+    return res.status(500).send("Server Error");
   }
 };
 
