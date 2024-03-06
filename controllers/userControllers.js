@@ -149,7 +149,7 @@ const logout = async (req, res) => {
 
 const verifyToken = async (req, res) => {
   const cookies = req.headers.cookie;
-  const token = cookies.split("=")[1];
+  const token = cookies ? cookies.split("=")[1] : null;
 
   if (!token) {
     res.status(404).json({ message: "No Token Found" });
@@ -162,8 +162,27 @@ const verifyToken = async (req, res) => {
   });
 };
 
+const searchUser = async (req, res) => {
+  try {
+    const { query } = req.body;
+    console.log(query);
+
+    const sql =
+      "SELECT * FROM users WHERE user_name ILIKE $1 OR user_email ILIKE $1";
+    const values = [`%${query}%`];
+
+    const results = await pool.query(sql, values);
+    console.log(results.rows);
+    return res.status(200).json(results.rows);
+  } catch (err) {
+    console.error(err);
+    return res.status(500).send("Server Error");
+  }
+};
+
 exports.register = register;
 exports.login = login;
 exports.deleteUser = deleteUser;
 exports.logout = logout;
 exports.verifyToken = verifyToken;
+exports.searchUser = searchUser;
