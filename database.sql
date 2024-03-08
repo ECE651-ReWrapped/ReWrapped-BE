@@ -11,6 +11,24 @@ CREATE TABLE users(
   PRIMARY KEY(user_id)
 );
 
+CREATE TABLE IF NOT EXISTS recently_played_tracks (
+    id SERIAL PRIMARY KEY,
+    user_id uuid REFERENCES users(user_id),
+    user_name VARCHAR(255) NOT NULL, -- Added user_name column
+    track_name VARCHAR(255) NOT NULL,
+    artists VARCHAR(255) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS recommended_tracks (
+    id SERIAL PRIMARY KEY,
+    user_id uuid REFERENCES users(user_id),
+    user_name VARCHAR(255) NOT NULL, -- Added user_name column
+    track_name VARCHAR(255) NOT NULL,
+    artists VARCHAR(255) NOT NULL,
+    timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- dev accounts
 INSERT INTO users (user_name, user_email, user_password) VALUES ('prerona', 'p2ghosh@uwaterloo.ca', 'Waterloo');
 
