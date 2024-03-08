@@ -149,16 +149,26 @@ const logout = async (req, res) => {
 
 const verifyToken = async (req, res) => {
   const cookies = req.headers.cookie;
-  const token = cookies ? cookies.split("=")[1] : null;
+  console.log(cookies);
+
+  if (!cookies) {
+    return res.status(404).json({ message: "No Token Found" });
+  }
+
+  // REGFEX FOR A JWT
+  const jwtPattern = /[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+/;
+  const matches = cookies.match(jwtPattern);
+  const token = matches ? matches[0] : null;
 
   if (!token) {
-    res.status(404).json({ message: "No Token Found" });
+    return res.status(404).json({ message: "No Token Found" });
   }
-  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
       return res.status(400).json({ message: "Invalid Token" });
     }
-    return res.status(200).json({ auth: true });
+    return res.status(200).json({ auth: true, user });
   });
 };
 
