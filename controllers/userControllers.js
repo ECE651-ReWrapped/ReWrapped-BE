@@ -149,7 +149,6 @@ const logout = async (req, res) => {
 
 const verifyToken = async (req, res) => {
   const cookies = req.headers.cookie;
-  console.log(cookies);
 
   if (!cookies) {
     return res.status(404).json({ message: "No Token Found" });
