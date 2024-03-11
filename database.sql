@@ -1,4 +1,5 @@
 -- CREATE DATABASE ReWrapped;
+-- Create tables start
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
 DROP TABLE IF EXISTS users CASCADE;
@@ -22,8 +23,10 @@ CREATE TABLE followers(
   FOREIGN KEY (following_id) REFERENCES users(user_id),
   PRIMARY KEY (follower_id, following_id)
 );
+-- Create tables end
 
--- Triggers
+-- Triggers start here
+-- Prevent self-follow trigger start
 CREATE OR REPLACE FUNCTION no_self_follow() RETURNS TRIGGER AS $$ BEGIN IF NEW.follower_id = NEW.following_id THEN RAISE EXCEPTION 'User cannot follow itself.';
 
 END IF;
@@ -36,3 +39,4 @@ $$ LANGUAGE plpgsql;
 
 CREATE TRIGGER noSelfFollow BEFORE
 INSERT ON followers FOR EACH ROW EXECUTE FUNCTION no_self_follow();
+-- Prevent self-follow trigger end
