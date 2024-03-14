@@ -28,7 +28,7 @@ const checkUserEmail = async (req, res) => {
                 return res.redirect('/reset-password');
             } 
             const token = buff.toString('hex');
-            // store token in database (resetToken: String, resetTokenExpiration: Date)
+            // store token in database (resetToken: String)
             pool.query("UPDATE users SET user_reset_token = $1 WHERE user_email = $2", [
                 token,
                 email
