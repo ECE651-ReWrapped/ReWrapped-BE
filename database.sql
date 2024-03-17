@@ -27,12 +27,12 @@ CREATE TABLE followers(
 
 -- Triggers start here
 -- Prevent self-follow trigger start
-CREATE OR REPLACE FUNCTION no_self_follow() RETURNS TRIGGER AS $$ BEGIN IF NEW.follower_id = NEW.following_id THEN RAISE EXCEPTION 'User cannot follow itself.';
-
-END IF;
-
-RETURN NEW;
-
+CREATE OR REPLACE FUNCTION no_self_follow() RETURNS TRIGGER AS $$
+  BEGIN IF NEW.follower_id = NEW.following_id
+    THEN RAISE EXCEPTION 'User cannot follow itself.';
+  END IF;
+  
+  RETURN NEW;
 END;
 
 $$ LANGUAGE plpgsql;

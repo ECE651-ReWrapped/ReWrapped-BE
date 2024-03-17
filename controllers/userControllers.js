@@ -25,7 +25,7 @@ const register = async (req, res) => {
     const user = await queryEmailAndName(email, name);
 
     if (user.rows.length > 0) {
-      return res.status(405).json({ message: "User already exists" });
+      return res.status(401).json({ message: "User already exists" });
     }
 
     if (password !== confirmPassword) {
@@ -41,9 +41,10 @@ const register = async (req, res) => {
     );
 
     const newUser = await queryEmailAndName(email, name);
-    console.log(newUser);
+    // console.log(newUser);
 
     const jwtToken = jwtGenerator(newUser.rows[0].user_id);
+
     res.cookie(String(newUser.rows[0].user_id), jwtToken, {
       domain: "localhost",
       path: "/",
@@ -77,10 +78,11 @@ const login = async (req, res) => {
     );
 
     if (!validPassword) {
-      return res.status(401).json({ message: "Incorrect Password" });
+      return res.status(401).json({ message: "Incorrect Password" }); // We should probably not say the password is wrong specifically
     }
 
     const jwtToken = jwtGenerator(user.rows[0].user_id);
+    
     res.cookie(String(user.rows[0].user_id), jwtToken, {
       domain: "localhost",
       path: "/",
@@ -98,7 +100,7 @@ const login = async (req, res) => {
   }
 };
 
-const deleteUser = async (req, res) => {
+const deleteUser = async (req, res) => { // although we will want to mask the user preferably
   const { email } = req.body;
 
   try {
@@ -126,12 +128,13 @@ const logout = async (req, res) => {
     return res.status(404).json({ message: "No Token Found" });
   }
 
-  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => { // should we even verify token on logout?
     if (err) {
       // handle scenario, flag suspicious activity?
       return res.status(400).json({ message: "Authentication Failed" });
     }
-    // expected logout conditions; clear cookies and return
+
+    // expected logout conditions met; clear cookies and return
     res.clearCookie(`${user.user.id}`, {
       domain: "localhost",
       path: "/",
@@ -141,6 +144,7 @@ const logout = async (req, res) => {
       sameSite: "lax",
       secure: false,
     });
+
     req.cookies[`${user.user.id}`] = ""; // apparently this is read only, so this line might not be doing anything
 
     return res.status(200).json({ message: "Successfully Logged out" });
@@ -149,16 +153,19 @@ const logout = async (req, res) => {
 
 const verifyToken = async (req, res) => {
   const cookies = req.headers.cookie;
-  const token = cookies.split("=")[1];
+  const token = cookies ? cookies.split("=")[1] : null;
 
   if (!token) {
-    res.status(404).json({ message: "No Token Found" });
+    // handle this scenario accordingly
+    return res.status(404).json({ auth: false, message: "No Token Found" });
   }
+
   jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
-      return res.status(400).json({ message: "Invalid Token" });
+      return res.status(400).json({ auth: false, message: "Invalid Token" });
     }
-    return res.status(200).json({ auth: true });
+    
+    return res.status(200).json({ auth: true , message: "Token is valid"});
   });
 };
 

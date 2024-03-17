@@ -64,7 +64,7 @@ describe("POST /register (testing user registration)", () => {
       });
 
       // expected items
-      expect(resp.statusCode).toBe(405);
+      expect(resp.statusCode).toBe(401);
       expect(resp.body.message).toBe("User already exists");
 
       // make sure register@gmail.com doesn't exist in test database
