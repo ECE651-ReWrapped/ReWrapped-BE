@@ -19,18 +19,18 @@ const followUser = async (req, res) => {
     }
 
     // verify token
-    const token = cookie ? cookie.split("=")[1] : null;
+    const token = cookie ? cookie.split("=")[1] : null; // for some reason, coverage says null didn't run
 
     if (!token) {
         // handle this scenario accordingly
-        return res.status(404).json({ message: "No Token Found" });
+        return res.status(401).json({ message: "No Token Found" });
     }
 
     try {
         jwt.verify(String(token), process.env.JWT_SECRET_KEY);
     } catch(err) {
         // handle scenarios accordingly
-        return res.status(404).json({ message: err.message });
+        return res.status(401).json({ message: err.message });
     }
 
     // conditions met, proceed with db changes
@@ -41,15 +41,16 @@ const followUser = async (req, res) => {
         return res.status(200).json({ message: "Follow successful." });
     } catch (err) {
         if (err.code == '23505') {
-            return res.status(401).json({ message: "User is already followed." });
+            return res.status(409).json({ message: "User is already followed." });
         } else if (err.code == '23503') {
-            return res.status(401).json({ message: "Source or target user does not exist." });
+            return res.status(404).json({ message: "Source or target user does not exist." });
         }
         else if (err.code == 'P0001') { // following themselves
-            return res.status(401).json({ message: err.message }); // msg handled by database trigger
+            return res.status(409).json({ message: err.message }); // msg handled by database trigger
         }
 
-        return res.status(401).json({ message: "Something went wrong!" });
+        // unexpected
+        return res.status(500).json({ message: err.message });
     }
 };
 
@@ -65,7 +66,7 @@ const unfollowUser = async (req, res) => {
     }
     else {
         // user has no ID in cookie for some reason; handle accordingly
-        return res.status(401).json({ message: "Something went wrong!" });
+        return res.status(401).json({ message: "User is missing cookie!" });
     }
 
     // verify token
@@ -73,14 +74,14 @@ const unfollowUser = async (req, res) => {
 
     if (!token) {
         // handle this scenario accordingly
-        return res.status(404).json({ message: "No Token Found" });
+        return res.status(401).json({ message: "No Token Found" });
     }
 
     try {
         jwt.verify(String(token), process.env.JWT_SECRET_KEY);
     } catch(err) {
         // handle scenarios accordingly
-        return res.status(404).json({ message: err.message });
+        return res.status(401).json({ message: err.message });
     }
 
     // conditions met, proceed with db changes
@@ -108,7 +109,7 @@ const unfollowUser = async (req, res) => {
     } catch (err) { // not sure what could trigger this
         console.log(err.code);
 
-        return res.status(401).json({ message: "Something went wrong!" });
+        return res.status(404).json({ message: err.message });
     }
 };
 

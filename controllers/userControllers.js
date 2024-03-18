@@ -125,7 +125,7 @@ const logout = async (req, res) => {
 
   if (!token) {
     // handle this scenario accordingly
-    return res.status(404).json({ message: "No Token Found" });
+    return res.status(401).json({ message: "No Token Found" });
   }
 
   jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => { // should we even verify token on logout?
@@ -157,7 +157,7 @@ const verifyToken = async (req, res) => {
 
   if (!token) {
     // handle this scenario accordingly
-    return res.status(404).json({ auth: false, message: "No Token Found" });
+    return res.status(401).json({ auth: false, message: "No Token Found" });
   }
 
   jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
