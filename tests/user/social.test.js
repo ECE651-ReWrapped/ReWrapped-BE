@@ -99,8 +99,6 @@ describe("POST /followUser (testing following a user )", () => {
       let testCookie = cookieOne[0].split(';')[0];
       testCookie = testCookie.split('=')[0];
 
-      console.log(testCookie);
-
       // follow user
       const followResponse = await request(app)
         .post("/followUser")
@@ -290,7 +288,7 @@ describe("POST /followUser (testing following a user )", () => {
 });
 
 describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
-  describe("Testing successful unfollow", () => {
+  describe("SOCIAL011 - Testing successful unfollow", () => {
     test("Should return 200 response code with successful unfollow message", async () => {
       // get target's ID
       const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
@@ -312,6 +310,143 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
       expect(unfollowResponse.statusCode).toBe(200);
       expect(unfollowResponse.body).toHaveProperty("message");
       expect(unfollowResponse.body.message).toBe("User unfollowed successfully");
+    });
+  });
+
+  describe("SOCIAL012 - Unfollowing a user that is not followed", () => {
+    test("Should return error code 400 and message", async () => {
+      // get target's ID
+      let testData = generateTestData();
+      const userTwoId = testData.uuid;
+
+      // unfollow
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .set('Cookie', cookieOne[0].split(';')[0])
+        .send({ targetID: userTwoId });
+
+      expect(unfollowResponse.statusCode).toBe(400);
+      expect(unfollowResponse.body).toHaveProperty("message");
+      expect(unfollowResponse.body.message).toBe("Unable to unfollow user.");
+    });
+  });
+
+  describe("SOCIAL013 - Unfollowing a user with no cookie set", () => {
+    test("Should return 401 response with error message", async () => {
+      // unfollow user
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .send({
+          targetID: "",
+        });
+
+      expect(unfollowResponse.statusCode).toBe(401);
+      expect(unfollowResponse.body).toHaveProperty("message");
+      expect(unfollowResponse.body.message).toBe("User is missing cookie!");
+    });
+  });
+
+  describe("SOCIAL014 - Unfollowing a user with no token", () => {
+    test("Should return 401 response with error message", async () => {
+      // modify the cookie (if needed)
+      let testCookie = cookieOne[0].split(';')[0];
+      testCookie = testCookie.split('=')[0];
+
+      // unfollow user
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .set('Cookie', testCookie)
+        .send({
+          targetID: "",
+        });
+
+      expect(unfollowResponse.statusCode).toBe(401);
+      expect(unfollowResponse.body).toHaveProperty("message");
+      expect(unfollowResponse.body.message).toBe("No Token Found");
+    });
+  });
+
+  describe("SOCIAL015 - Unfollowing a user with an invalid token", () => {
+    test("Should return 401 response with error message", async () => {
+      // modify the cookie (if needed)
+      let testCookie = cookieOne[0].split(';')[0];
+      testCookie = testCookie.replace('=', '=randomString');
+
+      // unfollow user
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .set('Cookie', testCookie)
+        .send({
+          targetID: "",
+        });
+
+      expect(unfollowResponse.statusCode).toBe(401);
+      expect(unfollowResponse.body).toHaveProperty("message");
+      expect(unfollowResponse.body.message).toBe("invalid token");
+    });
+  });
+
+  describe("SOCIAL016 - Unfollowing a user with an invalid signature", () => {
+    test("Should return 401 response with error message", async () => {
+      // modify the cookie (if needed)
+      let testCookie = cookieOne[0].split(';')[0];
+
+      // unfollow user
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .set('Cookie', testCookie + 'randomString')
+        .send({
+          targetID: "",
+        });
+
+      expect(unfollowResponse.statusCode).toBe(401);
+      expect(unfollowResponse.body).toHaveProperty("message");
+      expect(unfollowResponse.body.message).toBe("invalid signature");
+    });
+  });
+
+  describe("SOCIAL017 - Attempting to unfollow self", () => {
+    test("Should return error code 401 and message", async () => {
+      // get target's ID
+      const userTwoId = cookieOne[0].split(';')[0].split('=')[0];
+
+      // unfollow
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .set('Cookie', cookieOne[0].split(';')[0])
+        .send({ targetID: userTwoId });
+
+      expect(unfollowResponse.statusCode).toBe(401);
+      expect(unfollowResponse.body).toHaveProperty("message");
+      expect(unfollowResponse.body.message).toBe("Cannot unfollow self.");
+    });
+  });
+
+  describe("SOCIAL018 - Testing server/unexpected error", () => {
+    test("Expect response code in error range", async () => {
+      // Spy on pool.query and mock its implementation temporarily
+      const querySpy = jest.spyOn(pool, "query");
+      querySpy.mockRejectedValue(new Error("Unexpected error!"));
+
+      // modify the cookie (if needed)
+      let testCookie = cookieOne[0].split(';')[0];
+
+      // get target's ID
+      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+
+      // unfollow
+      const unfollowResponse = await request(app)
+        .delete("/unfollowUser")
+        .set('Cookie', cookieOne[0].split(';')[0])
+        .send({ targetID: userTwoId });
+
+      // expected items
+      console.log(unfollowResponse);
+      expect(unfollowResponse.statusCode).toBe(500);
+      expect(unfollowResponse._body.message).toBe("Unexpected error!");
+
+      // restore the original implementation after the test
+      querySpy.mockRestore();
     });
   });
 });

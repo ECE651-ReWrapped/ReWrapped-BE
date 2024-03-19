@@ -105,11 +105,11 @@ const unfollowUser = async (req, res) => {
 
         // if user does not follow the target
         // note: no need to check the case where target does not exist because followers table will only contain users that exist
-        return res.status(200).json({ message: "Unable to unfollow user." });
+        return res.status(400).json({ message: "Unable to unfollow user." }); // not sure what error code to use here
     } catch (err) { // not sure what could trigger this
         console.log(err.code);
 
-        return res.status(404).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 };
 
