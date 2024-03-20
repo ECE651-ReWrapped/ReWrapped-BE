@@ -1,6 +1,5 @@
 const authController = require('../controllers/authController');
 const request = require('request');
-const { shuffleArray } = require('../utils/spotifyUtils');
 
 // Mock dependencies
 jest.mock('request');
