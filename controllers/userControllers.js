@@ -41,7 +41,6 @@ const register = async (req, res) => {
     );
 
     const newUser = await queryEmailAndName(email, name);
-    // console.log(newUser);
 
     const jwtToken = jwtGenerator(newUser.rows[0].user_id);
 
@@ -153,20 +152,42 @@ const logout = async (req, res) => {
 
 const verifyToken = async (req, res) => {
   const cookies = req.headers.cookie;
-  const token = cookies ? cookies.split("=")[1] : null;
 
-  if (!token) {
-    // handle this scenario accordingly
-    return res.status(401).json({ auth: false, message: "No Token Found" });
+  if (!cookies) {
+    return res.status(404).json({ message: "No Token Found" });
   }
 
-  jwt.verify(String(token), process.env.JWT_SECRET_KEY, (err, user) => {
+  // REGFEX FOR A JWT
+  const jwtPattern = /[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+/;
+  const matches = cookies.match(jwtPattern);
+  const token = matches ? matches[0] : null;
+
+  if (!token) {
+    return res.status(404).json({ message: "No Token Found" });
+  }
+
+  jwt.verify(token, process.env.JWT_SECRET_KEY, (err, user) => {
     if (err) {
       return res.status(400).json({ auth: false, message: "Invalid Token" });
     }
-    
-    return res.status(200).json({ auth: true , message: "Token is valid"});
+    return res.status(200).json({ auth: true, user });
   });
+};
+
+const searchUser = async (req, res) => {
+  try {
+    const { query } = req.body;
+
+    const sql =
+      "SELECT * FROM users WHERE user_name ILIKE $1 OR user_email ILIKE $1";
+    const values = [`%${query}%`];
+
+    const results = await pool.query(sql, values);
+
+    return res.status(200).json(results.rows);
+  } catch (err) {
+    return res.status(500).send("Server Error");
+  }
 };
 
 exports.register = register;
@@ -174,3 +195,4 @@ exports.login = login;
 exports.deleteUser = deleteUser;
 exports.logout = logout;
 exports.verifyToken = verifyToken;
+exports.searchUser = searchUser;

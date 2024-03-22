@@ -1,0 +1,315 @@
+// Import required modules
+const passport = require('passport');
+const SpotifyStrategy = require('passport-spotify').Strategy;
+const SpotifyWebApi = require('spotify-web-api-node');
+const querystring = require('querystring');
+const request = require('request');
+const { Pool } = require('pg');
+const pool = require('../db'); // Reuse the existing pool
+const { generateRandomString, shuffleArray } = require('../utils/spotifyUtils');
+const { getRecommendedTracks, getRecentlyPlayedTracks } = require('./trackServices');
+
+// Other imports (like getUserById) should be added based on your application structure
+
+// Authentication route handlers
+const authController = {
+  login: (req, res) => {
+    const scope = "user-read-private user-read-email user-read-recently-played user-top-read";
+    const expectedState = generateRandomString(16);
+    req.session.spotifyState = expectedState;
+
+    return res.redirect('https://accounts.spotify.com/authorize?' +
+      querystring.stringify({
+        response_type: 'code',
+        client_id: '6a9f417f4971486997e26fdcf43d3502',
+        scope: scope,
+        redirect_uri: 'http://localhost:3000/callback',
+        state: expectedState
+      }));
+
+    //res.redirect(redirectUrl);
+  },
+
+  callback: async (req, res) => {
+    const { code, state } = req.query;
+    const expectedState = req.session.spotifyState;
+
+    if (state === null || state !== expectedState) {
+      return res.redirect('/loginSpotify?' +
+        querystring.stringify({
+          error: 'state_mismatch'
+        }));
+    }
+
+    try {
+      const authOptions = {
+        url: 'https://accounts.spotify.com/api/token',
+        form: {
+          code: code,
+          redirect_uri: 'http://localhost:3000/callback',
+          grant_type: 'authorization_code'
+        },
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + (new Buffer.from('6a9f417f4971486997e26fdcf43d3502' + ':' + '2b7d1892b983458cb441ff4ba371dd7b').toString('base64'))
+        },
+        json: true
+      };
+
+      //const { body } = await request.post(authOptions);
+      request.post(authOptions, function (error, response, body) {
+        if (!error && response.statusCode === 200) {
+
+          var access_token = body.access_token,
+          refresh_token = body.refresh_token;
+
+          // Fetch user's profile information
+          const profileOptions = {
+            url: 'https://api.spotify.com/v1/me',
+            headers: { Authorization: 'Bearer ' + access_token },
+            json: true,
+          };
+
+          //const { body: profileBody } = await request.get(profileOptions);
+          request.get(profileOptions, function (error, profileResponse, profileBody) {
+            if (!error && profileResponse.statusCode === 200) {
+
+              // Store user ID in your database
+              const userId = profileBody.display_name;
+              req.session.userId = userId;
+
+              // Fetch recently played tracks
+              const recentlyPlayedOptions = {
+                url: 'https://api.spotify.com/v1/me/player/recently-played',
+                headers: { Authorization: 'Bearer ' + access_token },
+                json: true,
+              };
+
+              request.get(recentlyPlayedOptions, function (error, recentlyPlayedResponse, recentlyPlayedBody) {
+                if (!error && recentlyPlayedResponse.statusCode === 200) {
+
+                  // Extract relevant information from recently played tracks
+                  const items = recentlyPlayedBody.items || [];
+                  const recentlyPlayedTracks = [];
+                  const truncateRecentlyPlayedQuery = `
+          TRUNCATE TABLE recently_played_tracks;
+          `;
+
+                  // Execute the truncate query
+                  pool.query(truncateRecentlyPlayedQuery, (err) => {
+                    if (err) {
+                      console.error('Error truncating recently_played_tracks table:', err);
+                    } else {
+                      console.log('recently_played_tracks table truncated successfully.');
+                    }
+                  });
+
+                  // Track Names and Artist Names
+                  items.forEach((item, index) => {
+                    let track = item.track;
+                    let trackName = track.name;
+                    let trackID = track.id;
+                    let artists = track.artists.map(artist => artist.name).join(', ');
+                    console.log("Track Name:", trackName);
+                    console.log("Artists:", artists);
+
+
+                    const insertQuery = `
+          INSERT INTO recently_played_tracks (user_name, track_name, artists)
+          VALUES ($1, $2, $3)
+      `;
+
+                    const values = [userId, trackName, artists];
+
+                    // Execute the insert query
+                    pool.query(insertQuery, values, (err) => {
+                      if (err) {
+                        console.error('Error inserting into database:', err);
+                      }
+                    });
+
+                    // Store the track information in the recentlyPlayedTracks array
+                    recentlyPlayedTracks.push({
+                      trackID: trackID,
+                      artists: artists
+                    });
+                  });
+
+
+
+                  // Log the recently played tracks
+                  console.log('Recently Played Tracks:', recentlyPlayedTracks);
+                  shuffleArray(recentlyPlayedTracks);
+                  // Use the recentlyPlayedTracks to get recommended songs
+                  // Take the first 5 tracks as seed tracks
+                  const seedTracks = recentlyPlayedTracks.slice(0, 5).map(track => track.trackID);
+                  const recommendedOptions = {
+                    url: "https://api.spotify.com/v1/recommendations",
+                    headers: { Authorization: "Bearer " + access_token },
+                    qs: {
+                      seed_tracks: seedTracks.join(','),
+                      limit: 10 // Adjust the limit as needed
+                    },
+                    json: true,
+                  };
+                  request.get(recommendedOptions, function (error, recommendedResponse, recommendedBody) {
+
+                    if (!error && recommendedResponse.statusCode === 200) {
+                      const recommendedTracks = recommendedBody.tracks || [];
+
+                      // Log the recommended tracks
+                      console.log('Recommended Tracks:', recommendedTracks);
+                      const truncateRecommendedQuery = `
+              TRUNCATE TABLE recommended_tracks;
+              `;
+
+                      // Execute the truncate query
+                      pool.query(truncateRecommendedQuery, (err) => {
+                        if (err) {
+                          console.error('Error truncating recommended_tracks table:', err);
+                        } else {
+                          console.log('recommended_tracks table truncated successfully.');
+                        }
+                      });
+
+                      // Store recommended tracks in PostgreSQL database
+                      recommendedTracks.forEach((track, index) => {
+                        const insertRecommendedQuery = `
+                  INSERT INTO recommended_tracks (user_name, track_name, artists)
+                  VALUES ($1, $2, $3)
+              `;
+
+                        const recommendedValues = [userId, track.name, track.artists.map(artist => artist.name).join(', ')];
+
+                        // Execute the insert query for recommended tracks
+                        pool.query(insertRecommendedQuery, recommendedValues, (err) => {
+                          if (err) {
+                            console.error('Error inserting recommended track into database:', err);
+                          }
+                        });
+                      });
+                      // Successful authentication, redirect to the home page or perform additional actions
+                      // Send a JSON response with the display name
+                      //const displayName = req.session.userId;
+
+                      res.redirect('/?displayName=' + encodeURIComponent(userId));
+                    } else {
+                      // Handle the case where access_token is not present in the response
+                      res.redirect('/error?' +
+                        querystring.stringify({
+                          error: 'invalid_token'
+                        }));
+                    }
+                  });
+                } else {
+                  console.error('Error in the OAuth callback1:', error.message);
+                  // Handle the error or redirect to an error page
+                  res.redirect('/error?' +
+                    querystring.stringify({
+                      error: 'internal_error'
+                    }));
+                }
+              });
+
+            }
+          });
+
+        }
+      });
+    }
+    catch (error) {
+      console.error('Error in the OAuth callback2:', error.message);
+      // Handle the error or redirect to an error page
+      res.redirect('/error?' +
+        querystring.stringify({
+          error: 'internal_error'
+        }));
+    }
+  },
+
+  // API endpoint to get recently played tracks
+  getRecentlyPlayed: async (req, res) => {
+    try {
+      const userId = req.params.userId; // User ID parameter from the request
+
+      // Fetch recently played tracks from the database
+      const recentlyPlayedTracks = await getRecentlyPlayedTracks(userId);
+
+      res.json(recentlyPlayedTracks);
+    } catch (error) {
+      console.error('Error fetching recently played tracks:', error.message);
+      res.status(500).json({ error: 'internal_server_error' });
+    }
+  },
+
+  // API endpoint to get recommended tracks
+  getRecommended: async (req, res) => {
+    try {
+      const userId = req.params.userId; // User ID parameter from the request
+
+      // Fetch recommended tracks from the database
+      const recommendedTracks = await getRecommendedTracks(userId);
+
+      res.json(recommendedTracks);
+    } catch (error) {
+      console.error('Error fetching recommended tracks:', error.message);
+      res.status(500).json({ error: 'internal_server_error' });
+    }
+  },
+
+  //logout: (req, res) => {
+  //req.logout();
+  //res.redirect('/');
+  //},
+
+  //isAuthenticated: (req, res, next) => {
+  //if (req.isAuthenticated()) {
+  //return next();
+  //} else {
+  //res.redirect('/login');
+  //}
+  //}
+};
+
+// Passport configuration
+passport.serializeUser((user, done) => {
+  done(null, user.spotifyId);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    // You should have a function like getUserById to fetch user from the database
+    // const user = await getUserById(id);
+    // done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
+
+// Create a SpotifyWebApi instance
+const spotifyApi = new SpotifyWebApi({
+  clientId: "6a9f417f4971486997e26fdcf43d3502",
+  clientSecret: "2b7d1892b983458cb441ff4ba371dd7b",
+  redirectUri: 'http://localhost:3000/callback'
+});
+
+// Passport SpotifyStrategy configuration
+passport.use(new SpotifyStrategy({
+  clientID: '6a9f417f4971486997e26fdcf43d3502',
+  clientSecret: '2b7d1892b983458cb441ff4ba371dd7b',
+  callbackURL: 'http://localhost:3000/callback',
+}, async (accessToken, refreshToken, profile, done) => {
+  try {
+    spotifyApi.setAccessToken(accessToken);
+    // Return the user object to Passport
+    const user = {
+      spotifyId: 'abcd', // profile.id,
+      displayName: '1234', // profile.displayName,
+    };
+    return done(null, user);
+  } catch (error) {
+    return done(error);
+  }
+}));
+
+module.exports = authController;
