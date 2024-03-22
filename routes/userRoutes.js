@@ -12,6 +12,7 @@ const {
   setNewPassword,
   validateToken,
 } = require("../controllers/dbControllers");
+const { followUser, unfollowUser } = require('../controllers/socialControllers');
 
 // middleware
 const validInfo = require("../middleware/validInfo");
@@ -29,5 +30,7 @@ router.post("/reset-password", validInfo, checkUserEmail);
 router.put("/reset-password", setNewPassword);
 router.get("/reset-password/:token", validateToken);
 router.post("/searchUser", searchUser);
+router.post('/followUser', followUser);
+router.delete('/unfollowUser', unfollowUser);
 
 module.exports = router;
