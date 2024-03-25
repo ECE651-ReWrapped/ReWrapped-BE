@@ -7,7 +7,7 @@ const request = require('request');
 const { Pool } = require('pg');
 const pool = require('../db'); // Reuse the existing pool
 const { generateRandomString, shuffleArray } = require('../utils/spotifyUtils');
-const { getRecommendedTracks, getRecentlyPlayedTracks } = require('./trackServices');
+const { getRecommendedTracks, getRecentlyPlayedTracks , getTopGenres } = require('./trackServices');
 
 // Other imports (like getUserById) should be added based on your application structure
 
@@ -61,7 +61,7 @@ const authController = {
         if (!error && response.statusCode === 200) {
 
           var access_token = body.access_token,
-          refresh_token = body.refresh_token;
+            refresh_token = body.refresh_token;
 
           // Fetch user's profile information
           const profileOptions = {
@@ -91,9 +91,7 @@ const authController = {
                   // Extract relevant information from recently played tracks
                   const items = recentlyPlayedBody.items || [];
                   const recentlyPlayedTracks = [];
-                  const truncateRecentlyPlayedQuery = `
-          TRUNCATE TABLE recently_played_tracks;
-          `;
+                  const truncateRecentlyPlayedQuery = `TRUNCATE TABLE recently_played_tracks;`; // deletes the data in table, but not the table itself
 
                   // Execute the truncate query
                   pool.query(truncateRecentlyPlayedQuery, (err) => {
@@ -110,39 +108,72 @@ const authController = {
                     let trackName = track.name;
                     let trackID = track.id;
                     let artists = track.artists.map(artist => artist.name).join(', ');
-                    console.log("Track Name:", trackName);
-                    console.log("Artists:", artists);
+                    let artistID = track.artists[0].id; // first artist for simplicity
 
+                    // console.log("Track Name:", trackName);
+                    // console.log("Artists:", artists);
 
-                    const insertQuery = `
-          INSERT INTO recently_played_tracks (user_name, track_name, artists)
-          VALUES ($1, $2, $3)
-      `;
+                    // Fetch artist information to get genres
+                    const artistOptions = {
+                      url: `https://api.spotify.com/v1/artists/${artistID}`,
+                      headers: { Authorization: 'Bearer ' + access_token },
+                      json: true,
+                    };
 
-                    const values = [userId, trackName, artists];
+                    request.get(artistOptions, function (error, artistResponse, artistBody) {
+                      if (!error && artistResponse.statusCode === 200) {
+                        const genres = artistBody.genres;
 
-                    // Execute the insert query
-                    pool.query(insertQuery, values, (err) => {
-                      if (err) {
-                        console.error('Error inserting into database:', err);
+                        // Insert track information into the database
+                        const insertQuery = `
+                          INSERT INTO recently_played_tracks (user_name, track_name, artists, genres)
+                          VALUES ($1, $2, $3, $4)`;
+
+                        const values = [userId, trackName, artists, genres.join(', ')];
+
+                        pool.query(insertQuery, values, (err) => {
+                          if (err) {
+                            console.error('Error inserting into database:', err);
+                          }
+                        });
                       }
                     });
 
-                    // Store the track information in the recentlyPlayedTracks array
+                    // Update listening trends
+                    const trackDate = new Date(item.played_at).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+                    const updateListeningTrendsQuery = `
+                    INSERT INTO listening_trends (user_name, date, track_count)
+                    VALUES ($1, $2, 1)
+                    ON CONFLICT (user_name, date)
+                    DO UPDATE SET track_count = listening_trends.track_count + 1
+                `;
+                    const trendValues = [userId, trackDate];
+
+                    pool.query(updateListeningTrendsQuery, trendValues, (err) => {
+                      if (err) {
+                        console.error('Error updating listening trends:', err);
+                      }
+                    });
+
+                    // Store the track information along with genres
                     recentlyPlayedTracks.push({
                       trackID: trackID,
-                      artists: artists
+                      //trackName: trackName,
+                      artists: artists,
+                      //genres: genres
                     });
                   });
 
-
-
+                  // -------------------------------------------------------------------
                   // Log the recently played tracks
-                  console.log('Recently Played Tracks:', recentlyPlayedTracks);
+                  // console.log('Recently Played Tracks:', recentlyPlayedTracks);
                   shuffleArray(recentlyPlayedTracks);
+
                   // Use the recentlyPlayedTracks to get recommended songs
                   // Take the first 5 tracks as seed tracks
                   const seedTracks = recentlyPlayedTracks.slice(0, 5).map(track => track.trackID);
+
                   const recommendedOptions = {
                     url: "https://api.spotify.com/v1/recommendations",
                     headers: { Authorization: "Bearer " + access_token },
@@ -152,16 +183,14 @@ const authController = {
                     },
                     json: true,
                   };
-                  request.get(recommendedOptions, function (error, recommendedResponse, recommendedBody) {
 
+                  request.get(recommendedOptions, function (error, recommendedResponse, recommendedBody) {
                     if (!error && recommendedResponse.statusCode === 200) {
                       const recommendedTracks = recommendedBody.tracks || [];
 
                       // Log the recommended tracks
-                      console.log('Recommended Tracks:', recommendedTracks);
-                      const truncateRecommendedQuery = `
-              TRUNCATE TABLE recommended_tracks;
-              `;
+                      // console.log('Recommended Tracks:', recommendedTracks);
+                      const truncateRecommendedQuery = `TRUNCATE TABLE recommended_tracks;`;
 
                       // Execute the truncate query
                       pool.query(truncateRecommendedQuery, (err) => {
@@ -175,9 +204,7 @@ const authController = {
                       // Store recommended tracks in PostgreSQL database
                       recommendedTracks.forEach((track, index) => {
                         const insertRecommendedQuery = `
-                  INSERT INTO recommended_tracks (user_name, track_name, artists)
-                  VALUES ($1, $2, $3)
-              `;
+                          INSERT INTO recommended_tracks (user_name, track_name, artists) VALUES ($1, $2, $3)`;
 
                         const recommendedValues = [userId, track.name, track.artists.map(artist => artist.name).join(', ')];
 
@@ -253,6 +280,21 @@ const authController = {
       res.json(recommendedTracks);
     } catch (error) {
       console.error('Error fetching recommended tracks:', error.message);
+      res.status(500).json({ error: 'internal_server_error' });
+    }
+  },
+
+  // API endpoint to get top genres
+  getTop: async (req, res) => {
+    try {
+      const userId = req.params.userId; // User ID parameter from the request
+
+      // Fetch genres from the database
+      const topGenres = await getTopGenres(userId);
+
+      res.json(topGenres);
+    } catch (error) {
+      console.error('Error fetching top genres:', error.message);
       res.status(500).json({ error: 'internal_server_error' });
     }
   },

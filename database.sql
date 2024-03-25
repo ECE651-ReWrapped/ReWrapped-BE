@@ -2,9 +2,11 @@
 -- Create tables start
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-DROP TABLE IF EXISTS users CASCADE;
-
+-- DROP TABLE IF EXISTS users CASCADE;
 DROP TABLE IF EXISTS followers;
+DROP TABLE IF EXISTS recently_played_tracks;
+DROP TABLE IF EXISTS recommended_tracks;
+DROP TABLE IF EXISTS listening_trends;
 
 CREATE TABLE users(
   user_id uuid DEFAULT uuid_generate_v4(),
@@ -17,16 +19,17 @@ CREATE TABLE users(
 CREATE TABLE IF NOT EXISTS recently_played_tracks (
     id SERIAL PRIMARY KEY,
     user_id uuid REFERENCES users(user_id),
-    user_name VARCHAR(255) NOT NULL, -- Added user_name column
+    user_name VARCHAR(255) NOT NULL,
     track_name VARCHAR(255) NOT NULL,
     artists VARCHAR(255) NOT NULL,
+    genres VARCHAR(255) NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS recommended_tracks (
     id SERIAL PRIMARY KEY,
     user_id uuid REFERENCES users(user_id),
-    user_name VARCHAR(255) NOT NULL, -- Added user_name column
+    user_name VARCHAR(255) NOT NULL,
     track_name VARCHAR(255) NOT NULL,
     artists VARCHAR(255) NOT NULL,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -40,6 +43,14 @@ CREATE TABLE followers(
   FOREIGN KEY (following_id) REFERENCES users(user_id),
   PRIMARY KEY (follower_id, following_id)
 );
+
+CREATE TABLE listening_trends (
+    user_name VARCHAR(255),
+    date DATE,
+    track_count INT,
+    PRIMARY KEY (user_name, date)
+);
+
 -- Create tables end
 
 -- Add user_reset_token and user_reset_token_exp columns
