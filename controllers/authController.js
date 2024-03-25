@@ -7,7 +7,7 @@ const request = require('request');
 const { Pool } = require('pg');
 const pool = require('../db'); // Reuse the existing pool
 const { generateRandomString, shuffleArray } = require('../utils/spotifyUtils');
-const { getRecommendedTracks, getRecentlyPlayedTracks } = require('./trackServices');
+const { getRecommendedTracks, getRecentlyPlayedTracks , getTopGenres } = require('./trackServices');
 
 // Other imports (like getUserById) should be added based on your application structure
 
@@ -110,8 +110,8 @@ const authController = {
                     let artists = track.artists.map(artist => artist.name).join(', ');
                     let artistID = track.artists[0].id; // first artist for simplicity
 
-                    console.log("Track Name:", trackName);
-                    console.log("Artists:", artists);
+                    // console.log("Track Name:", trackName);
+                    // console.log("Artists:", artists);
 
                     // Fetch artist information to get genres
                     const artistOptions = {
@@ -167,7 +167,7 @@ const authController = {
 
                   // -------------------------------------------------------------------
                   // Log the recently played tracks
-                  console.log('Recently Played Tracks:', recentlyPlayedTracks);
+                  // console.log('Recently Played Tracks:', recentlyPlayedTracks);
                   shuffleArray(recentlyPlayedTracks);
 
                   // Use the recentlyPlayedTracks to get recommended songs
@@ -189,7 +189,7 @@ const authController = {
                       const recommendedTracks = recommendedBody.tracks || [];
 
                       // Log the recommended tracks
-                      console.log('Recommended Tracks:', recommendedTracks);
+                      // console.log('Recommended Tracks:', recommendedTracks);
                       const truncateRecommendedQuery = `TRUNCATE TABLE recommended_tracks;`;
 
                       // Execute the truncate query
@@ -280,6 +280,21 @@ const authController = {
       res.json(recommendedTracks);
     } catch (error) {
       console.error('Error fetching recommended tracks:', error.message);
+      res.status(500).json({ error: 'internal_server_error' });
+    }
+  },
+
+  // API endpoint to get top genres
+  getTop: async (req, res) => {
+    try {
+      const userId = req.params.userId; // User ID parameter from the request
+
+      // Fetch genres from the database
+      const topGenres = await getTopGenres(userId);
+
+      res.json(topGenres);
+    } catch (error) {
+      console.error('Error fetching top genres:', error.message);
       res.status(500).json({ error: 'internal_server_error' });
     }
   },
