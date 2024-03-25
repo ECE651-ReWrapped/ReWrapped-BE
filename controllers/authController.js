@@ -23,7 +23,7 @@ const authController = {
         response_type: 'code',
         client_id: '6a9f417f4971486997e26fdcf43d3502',
         scope: scope,
-        redirect_uri: 'http://localhost:3000/callback',
+        redirect_uri: 'http://localhost:6001/callback',
         state: expectedState
       }));
 
@@ -46,7 +46,7 @@ const authController = {
         url: 'https://accounts.spotify.com/api/token',
         form: {
           code: code,
-          redirect_uri: 'http://localhost:3000/callback',
+          redirect_uri: 'http://localhost:6001/callback',
           grant_type: 'authorization_code'
         },
         headers: {
@@ -290,14 +290,14 @@ passport.deserializeUser(async (id, done) => {
 const spotifyApi = new SpotifyWebApi({
   clientId: "6a9f417f4971486997e26fdcf43d3502",
   clientSecret: "2b7d1892b983458cb441ff4ba371dd7b",
-  redirectUri: 'http://localhost:3000/callback'
+  redirectUri: 'http://localhost:6001/callback'
 });
 
 // Passport SpotifyStrategy configuration
 passport.use(new SpotifyStrategy({
   clientID: '6a9f417f4971486997e26fdcf43d3502',
   clientSecret: '2b7d1892b983458cb441ff4ba371dd7b',
-  callbackURL: 'http://localhost:3000/callback',
+  callbackURL: 'http://localhost:6001/callback',
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     spotifyApi.setAccessToken(accessToken);
