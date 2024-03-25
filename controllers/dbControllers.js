@@ -41,7 +41,7 @@ const checkUserEmail = async (req, res) => {
         to: email,
         subject: "Reset Password",
         html: `<p>You requested a password reset!</p>
-                    <p>Click this <a href="${process.env.CLIENT_LOCAL_URL}/reset-password/${token}">link</a> to set a new password.</p>`,
+                    <p>Click this <a href="${process.env.REACT_APP_CLIENT}/reset-password/${token}">link</a> to set a new password.</p>`,
       };
 
       transporter.sendMail(mailOptions, (error, info) => {
