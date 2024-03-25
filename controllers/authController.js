@@ -192,7 +192,7 @@ const authController = {
                       // Send a JSON response with the display name
                       //const displayName = req.session.userId;
 
-                      res.redirect('/?displayName=' + encodeURIComponent(userId));
+                      res.redirect('http://localhost:3000/dashboard/?displayName=' + encodeURIComponent(userId));
                     } else {
                       // Handle the case where access_token is not present in the response
                       res.redirect('/error?' +
