@@ -124,19 +124,11 @@ const authController = {
                       if (!error && artistResponse.statusCode === 200) {
                         const genres = artistBody.genres;
 
-                        // Store the track information along with genres
-                        recentlyPlayedTracks.push({
-                          trackID: trackID,
-                          trackName: trackName,
-                          //artists: artists,
-                          //genres: genres
-                        });
-
                         // Insert track information into the database
                         const insertQuery = `
-                              INSERT INTO recently_played_tracks (user_name, track_name, artists, genres)
-                              VALUES ($1, $2, $3, $4)
-                          `;
+                          INSERT INTO recently_played_tracks (user_name, track_name, artists, genres)
+                          VALUES ($1, $2, $3, $4)`;
+
                         const values = [userId, trackName, artists, genres.join(', ')];
 
                         pool.query(insertQuery, values, (err) => {
@@ -145,6 +137,31 @@ const authController = {
                           }
                         });
                       }
+                    });
+
+                    // Update listening trends
+                    const trackDate = new Date(item.played_at).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+
+                    const updateListeningTrendsQuery = `
+                    INSERT INTO listening_trends (user_name, date, track_count)
+                    VALUES ($1, $2, 1)
+                    ON CONFLICT (user_name, date)
+                    DO UPDATE SET track_count = listening_trends.track_count + 1
+                `;
+                    const trendValues = [userId, trackDate];
+
+                    pool.query(updateListeningTrendsQuery, trendValues, (err) => {
+                      if (err) {
+                        console.error('Error updating listening trends:', err);
+                      }
+                    });
+
+                    // Store the track information along with genres
+                    recentlyPlayedTracks.push({
+                      trackID: trackID,
+                      //trackName: trackName,
+                      artists: artists,
+                      //genres: genres
                     });
                   });
 
