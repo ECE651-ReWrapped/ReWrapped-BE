@@ -3,31 +3,44 @@ const bycrypt = require("bcryptjs");
 const jwtGenerator = require("../utils/jwtGenerator");
 const jwt = require("jsonwebtoken");
 
+// Define a pattern that matches the structure of JWT
+const jwtPattern = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
+
 const followUser = async (req, res) => {
     const { targetID } = req.body;
 
     // grab requesting user's ID from cookie
-    const cookie = req.headers.cookie;
+    const cookieHeader = req.headers.cookie;
+    let jwtToken = null;
     let sourceID = null;
 
-    if (cookie) {
-        sourceID = cookie.split("=")[0];
+    if (cookieHeader) {
+        // Split the cookie string by "; " to get individual cookies
+        const cookies = cookieHeader.split('; ');
+
+        // Search for the JWT token in the cookies
+        for (const cookie of cookies) {
+            const parts = cookie.split('=');
+
+            if (jwtPattern.test(parts[1])) {
+                sourceID = parts[0];
+                jwtToken = parts[1];
+                break;
+            }
+        }
     }
     else {
         // user has no ID in cookie for some reason; handle accordingly
         return res.status(401).json({ message: "User is missing cookie!" });
     }
 
-    // verify token
-    const token = cookie ? cookie.split("=")[1] : null; // for some reason, coverage says null didn't run
-
-    if (!token) {
+    if (!jwtToken) {
         // handle this scenario accordingly
         return res.status(401).json({ message: "No Token Found" });
     }
 
     try {
-        jwt.verify(String(token), process.env.JWT_SECRET_KEY);
+        jwt.verify(String(jwtToken), process.env.JWT_SECRET_KEY);
     } catch(err) {
         // handle scenarios accordingly
         return res.status(401).json({ message: err.message });
@@ -58,27 +71,37 @@ const unfollowUser = async (req, res) => {
     const { targetID } = req.body;
 
     // grab requesting user's ID from cookie
-    const cookie = req.headers.cookie;
+    const cookieHeader = req.headers.cookie;
+    let jwtToken = null;
     let sourceID = null;
 
-    if (cookie) {
-        sourceID = cookie.split("=")[0];
+    if (cookieHeader) {
+        // Split the cookie string by "; " to get individual cookies
+        const cookies = cookieHeader.split('; ');
+
+        // Search for the JWT token in the cookies
+        for (const cookie of cookies) {
+            const parts = cookie.split('=');
+
+            if (jwtPattern.test(parts[1])) {
+                sourceID = parts[0];
+                jwtToken = parts[1];
+                break;
+            }
+        }
     }
     else {
         // user has no ID in cookie for some reason; handle accordingly
         return res.status(401).json({ message: "User is missing cookie!" });
     }
 
-    // verify token
-    const token = cookie ? cookie.split("=")[1] : null;
-
-    if (!token) {
+    if (!jwtToken) {
         // handle this scenario accordingly
         return res.status(401).json({ message: "No Token Found" });
     }
 
     try {
-        jwt.verify(String(token), process.env.JWT_SECRET_KEY);
+        jwt.verify(String(jwtToken), process.env.JWT_SECRET_KEY);
     } catch(err) {
         // handle scenarios accordingly
         return res.status(401).json({ message: err.message });

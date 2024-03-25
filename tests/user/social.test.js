@@ -13,6 +13,9 @@ let regTwo = null;
 let cookieOne = null;
 let cookieTwo = null;
 
+// Define a pattern that matches the structure of JWT
+const jwtPattern = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
+
 // Jest hook to run before tests
 beforeAll(async () => {
   regOne = await request(app).post("/register").send({
@@ -30,8 +33,32 @@ beforeAll(async () => {
   });
 
   // grab cookies
-  cookieOne = regOne.headers['set-cookie'];
-  cookieTwo = regTwo.headers['set-cookie'];
+  const cookiesOne = regOne.headers['set-cookie'];
+  const cookiesTwo = regTwo.headers['set-cookie'];
+
+  // Search for the JWT token in the cookies
+  for (const fullCookie of cookiesOne) {
+    const cookies = fullCookie.split('; ');
+    for (const cookie of cookies) {
+      const parts = cookie.split('=');
+      if (jwtPattern.test(parts[1])) {
+        cookieOne = cookie; // Save the entire cookie string
+        break;
+      }
+    }
+  }
+
+  for (const fullCookie of cookiesTwo) {
+    const cookies = fullCookie.split('; ');
+    for (const cookie of cookies) {
+      const parts = cookie.split('=');
+      if (jwtPattern.test(parts[1])) {
+        cookieTwo = cookie; // Save the entire cookie string
+        break;
+      }
+    }
+  }
+
 });
 
 // Jest hook to run after tests have completed
@@ -56,12 +83,12 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL001 - Testing successful follow", () => {
     test("Should return 200 response code with successful follow message", async () => {
       // get target's ID
-      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieTwo.split('=')[0];
 
       // follow user
       const followResponse = await request(app)
         .post("/followUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({
           targetID: userTwoId,
         });
@@ -73,7 +100,7 @@ describe("POST /followUser (testing following a user )", () => {
       // clean up
       await request(app)
         .delete("/unfollowUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({ targetID: userTwoId });
     });
   });
@@ -96,8 +123,7 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL003 - Following a user with no token", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
-      testCookie = testCookie.split('=')[0];
+      let testCookie = cookieOne.split('=')[0];
 
       // follow user
       const followResponse = await request(app)
@@ -116,8 +142,7 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL004 - Following a user with an invalid token", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
-      testCookie = testCookie.replace('=', '=randomString');
+      let testCookie = cookieOne.replace('=', '=randomString');
 
       // follow user
       const followResponse = await request(app)
@@ -136,7 +161,7 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL005 - Following a user with an invalid signature", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
 
       // follow user
       const followResponse = await request(app)
@@ -155,10 +180,10 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL006 - Following a user that is already followed", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
 
       // get target's ID
-      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieTwo.split('=')[0];
 
       // follow user
       const followResponse = await request(app)
@@ -168,6 +193,8 @@ describe("POST /followUser (testing following a user )", () => {
           targetID: userTwoId,
         });
 
+      expect(followResponse.statusCode).toBe(200); // make sure the test is set up correctly
+
       // follow user
       const followAgainResponse = await request(app)
         .post("/followUser")
@@ -175,8 +202,6 @@ describe("POST /followUser (testing following a user )", () => {
         .send({
           targetID: userTwoId,
         });
-
-      expect(followResponse.statusCode).toBe(200); // make sure the test is set up correctly
 
       expect(followAgainResponse.statusCode).toBe(409);
       expect(followAgainResponse.body).toHaveProperty("message");
@@ -187,12 +212,11 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL007 - Following a user when source ID does not exist in DB", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
       let testData = generateTestData();
-      testCookie = testData.uuid + '=' + testCookie.split("=")[1];
+      testCookie = testData.uuid + '=' + cookieOne.split("=")[1];
 
       // get target's ID
-      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieTwo.split('=')[0];
 
       // follow user
       const followResponse = await request(app)
@@ -211,7 +235,7 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL008 - Following a user when target ID does not exist in DB", () => {
     test("Should return 402 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
       let testData = generateTestData();
 
       // follow user
@@ -231,7 +255,7 @@ describe("POST /followUser (testing following a user )", () => {
   describe("SOCIAL009 - User attempting to follow self", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
 
       // get target's ID
       const userOneId = testCookie.split('=')[0];
@@ -257,10 +281,10 @@ describe("POST /followUser (testing following a user )", () => {
       querySpy.mockRejectedValue(new Error("Unexpected error!"));
 
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
 
       // get target's ID
-      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieTwo.split('=')[0];
 
       // follow user
       const followResponse = await request(app)
@@ -271,7 +295,6 @@ describe("POST /followUser (testing following a user )", () => {
         });
 
       // expected items
-      console.log(followResponse);
       expect(followResponse.statusCode).toBe(500);
       expect(followResponse._body.message).toBe("Unexpected error!");
 
@@ -281,7 +304,7 @@ describe("POST /followUser (testing following a user )", () => {
       // clean up
       await request(app)
         .delete("/unfollowUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({ targetID: userTwoId });
     });
   });
@@ -291,12 +314,12 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
   describe("SOCIAL011 - Testing successful unfollow", () => {
     test("Should return 200 response code with successful unfollow message", async () => {
       // get target's ID
-      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieTwo.split('=')[0];
 
       // follow user
       await request(app)
         .post("/followUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({
           targetID: userTwoId,
         });
@@ -304,7 +327,7 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
       // unfollow
       const unfollowResponse = await request(app)
         .delete("/unfollowUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({ targetID: userTwoId });
 
       expect(unfollowResponse.statusCode).toBe(200);
@@ -322,7 +345,7 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
       // unfollow
       const unfollowResponse = await request(app)
         .delete("/unfollowUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({ targetID: userTwoId });
 
       expect(unfollowResponse.statusCode).toBe(400);
@@ -349,7 +372,7 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
   describe("SOCIAL014 - Unfollowing a user with no token", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
       testCookie = testCookie.split('=')[0];
 
       // unfollow user
@@ -369,7 +392,7 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
   describe("SOCIAL015 - Unfollowing a user with an invalid token", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
       testCookie = testCookie.replace('=', '=randomString');
 
       // unfollow user
@@ -389,7 +412,7 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
   describe("SOCIAL016 - Unfollowing a user with an invalid signature", () => {
     test("Should return 401 response with error message", async () => {
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
 
       // unfollow user
       const unfollowResponse = await request(app)
@@ -408,12 +431,12 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
   describe("SOCIAL017 - Attempting to unfollow self", () => {
     test("Should return error code 401 and message", async () => {
       // get target's ID
-      const userTwoId = cookieOne[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieOne.split('=')[0];
 
       // unfollow
       const unfollowResponse = await request(app)
         .delete("/unfollowUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({ targetID: userTwoId });
 
       expect(unfollowResponse.statusCode).toBe(401);
@@ -429,19 +452,18 @@ describe("DELETE /unfollowUser (testing unfollowing a user )", () => {
       querySpy.mockRejectedValue(new Error("Unexpected error!"));
 
       // modify the cookie (if needed)
-      let testCookie = cookieOne[0].split(';')[0];
+      let testCookie = cookieOne;
 
       // get target's ID
-      const userTwoId = cookieTwo[0].split(';')[0].split('=')[0];
+      const userTwoId = cookieTwo.split('=')[0];
 
       // unfollow
       const unfollowResponse = await request(app)
         .delete("/unfollowUser")
-        .set('Cookie', cookieOne[0].split(';')[0])
+        .set('Cookie', cookieOne)
         .send({ targetID: userTwoId });
 
       // expected items
-      console.log(unfollowResponse);
       expect(unfollowResponse.statusCode).toBe(500);
       expect(unfollowResponse._body.message).toBe("Unexpected error!");
 
