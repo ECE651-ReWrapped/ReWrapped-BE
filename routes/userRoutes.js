@@ -12,7 +12,7 @@ const {
   setNewPassword,
   validateToken,
 } = require("../controllers/dbControllers");
-const { followUser, unfollowUser } = require('../controllers/socialControllers');
+const { followUser, unfollowUser, isFollowed } = require('../controllers/socialControllers');
 
 // middleware
 const validInfo = require("../middleware/validInfo");
@@ -32,5 +32,6 @@ router.get("/reset-password/:token", validateToken);
 router.post("/searchUser", searchUser);
 router.post('/followUser', followUser);
 router.delete('/unfollowUser', unfollowUser);
+router.get('/isFollowed', isFollowed);
 
 module.exports = router;

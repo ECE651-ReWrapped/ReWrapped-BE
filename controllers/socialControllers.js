@@ -8,42 +8,12 @@ const jwtPattern = /^[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+\.[A-Za-z0-9-_]+$/;
 
 const followUser = async (req, res) => {
     const { targetID } = req.body;
-
-    // grab requesting user's ID from cookie
-    const cookieHeader = req.headers.cookie;
-    let jwtToken = null;
-    let sourceID = null;
-
-    if (cookieHeader) {
-        // Split the cookie string by "; " to get individual cookies
-        const cookies = cookieHeader.split('; ');
-
-        // Search for the JWT token in the cookies
-        for (const cookie of cookies) {
-            const parts = cookie.split('=');
-
-            if (jwtPattern.test(parts[1])) {
-                sourceID = parts[0];
-                jwtToken = parts[1];
-                break;
-            }
-        }
-    }
-    else {
-        // user has no ID in cookie for some reason; handle accordingly
-        return res.status(401).json({ message: "User is missing cookie!" });
-    }
-
-    if (!jwtToken) {
-        // handle this scenario accordingly
-        return res.status(401).json({ message: "No Token Found" });
-    }
+    let sourceID;
 
     try {
-        jwt.verify(String(jwtToken), process.env.JWT_SECRET_KEY);
-    } catch(err) {
-        // handle scenarios accordingly
-        return res.status(401).json({ message: err.message });
+        sourceID = extract(req);
+    } catch (error) {
+        return res.status(401).json({ message: error.message });
     }
 
     // conditions met, proceed with db changes
@@ -69,42 +39,12 @@ const followUser = async (req, res) => {
 
 const unfollowUser = async (req, res) => {
     const { targetID } = req.body;
-
-    // grab requesting user's ID from cookie
-    const cookieHeader = req.headers.cookie;
-    let jwtToken = null;
-    let sourceID = null;
-
-    if (cookieHeader) {
-        // Split the cookie string by "; " to get individual cookies
-        const cookies = cookieHeader.split('; ');
-
-        // Search for the JWT token in the cookies
-        for (const cookie of cookies) {
-            const parts = cookie.split('=');
-
-            if (jwtPattern.test(parts[1])) {
-                sourceID = parts[0];
-                jwtToken = parts[1];
-                break;
-            }
-        }
-    }
-    else {
-        // user has no ID in cookie for some reason; handle accordingly
-        return res.status(401).json({ message: "User is missing cookie!" });
-    }
-
-    if (!jwtToken) {
-        // handle this scenario accordingly
-        return res.status(401).json({ message: "No Token Found" });
-    }
+    let sourceID;
 
     try {
-        jwt.verify(String(jwtToken), process.env.JWT_SECRET_KEY);
-    } catch(err) {
-        // handle scenarios accordingly
-        return res.status(401).json({ message: err.message });
+        sourceID = extract(req);
+    } catch (error) {
+        return res.status(401).json({ message: error.message });
     }
 
     // conditions met, proceed with db changes
@@ -136,5 +76,66 @@ const unfollowUser = async (req, res) => {
     }
 };
 
+const isFollowed = async (req, res) => {
+    const { targetID } = req.query;
+    let sourceID;
+
+    try {
+        sourceID = extract(req);
+    } catch (error) {
+        return res.status(401).json({ message: error.message });
+    }
+
+    try {
+        const result = await pool.query(
+            "SELECT 1 FROM followers WHERE follower_id = $1 AND following_id = $2",
+            [sourceID, targetID]
+        );
+
+        if (result.rows.length > 0) {
+            res.status(200).json({ isFollowed: true });
+        } else {
+            res.status(200).json({ isFollowed: false });
+        }
+    } catch (err) {
+        res.status(500).json({ message: "Server error." });
+    }
+};
+
+const extract = (req) => {
+    const cookieHeader = req.headers.cookie;
+    let jwtToken = null;
+    let sourceID = null;
+
+    if (cookieHeader) {
+        const cookies = cookieHeader.split('; ');
+
+        for (const cookie of cookies) {
+            const parts = cookie.split('=');
+
+            if (jwtPattern.test(parts[1])) {
+                sourceID = parts[0];
+                jwtToken = parts[1];
+                break;
+            }
+        }
+    } else {
+        throw new Error("User is missing cookie!");
+    }
+
+    if (!jwtToken) {
+        throw new Error("No Token Found");
+    }
+
+    try {
+        jwt.verify(String(jwtToken), process.env.JWT_SECRET_KEY);
+    } catch (err) {
+        throw new Error(err.message);
+    }
+
+    return sourceID;
+};
+
 exports.followUser = followUser;
 exports.unfollowUser = unfollowUser;
+exports.isFollowed = isFollowed;
