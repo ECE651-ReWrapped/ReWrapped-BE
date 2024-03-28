@@ -14,6 +14,7 @@ const {
 } = require("../controllers/dbControllers");
 const { followUser, unfollowUser, isFollowed } = require('../controllers/socialControllers');
 
+const { deleteSharedPlaylistsContent, getSharedPlaylists, createNewSharedPlaylist } = require("../controllers/playlistControllers"); 
 // middleware
 const validInfo = require("../middleware/validInfo");
 
@@ -33,5 +34,12 @@ router.post("/searchUser", searchUser);
 router.post('/followUser', followUser);
 router.delete('/unfollowUser', unfollowUser);
 router.get('/isFollowed', isFollowed);
+
+// shared playlist routes
+router.post("/createNewSharedPlaylist", createNewSharedPlaylist);
+router.get("/getSharedPlaylists", getSharedPlaylists)
+
+// test endpoints, not used in code
+router.delete("/deleteAllSharedPlaylists", deleteSharedPlaylistsContent);
 
 module.exports = router;
