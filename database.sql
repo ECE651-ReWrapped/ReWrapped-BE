@@ -51,6 +51,24 @@ CREATE TABLE listening_trends (
     PRIMARY KEY (user_name, date)
 );
 
+-- Tables for collaborative playlists
+CREATE TABLE IF NOT EXISTS shared_playlists (
+    playlist_id SERIAL PRIMARY KEY,
+    playlist_name VARCHAR(255) NOT NULL,
+    createdbyemail VARCHAR(255) NOT NULL,
+    sharedwithemail VARCHAR(255) NOT NULL,
+);
+
+CREATE TABLE IF NOT EXISTS shared_playlist_tracks (
+    track_id SERIAL PRIMARY KEY,
+    track_name VARCHAR(255),
+    artist_name VARCHAR(255),
+    playlist_id INTEGER NOT NULL,
+    FOREIGN KEY (playlist_id) REFERENCES shared_playlists(playlist_id)
+    ON DELETE CASCADE --ensures that tracks are deleted if the playlist is deleted
+);
+
+
 -- Create tables end
 
 -- Add user_reset_token and user_reset_token_exp columns
