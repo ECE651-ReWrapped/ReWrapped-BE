@@ -61,8 +61,8 @@ CREATE TABLE IF NOT EXISTS shared_playlists (
 
 CREATE TABLE IF NOT EXISTS shared_playlist_tracks (
     track_id SERIAL PRIMARY KEY,
-    track_name VARCHAR(255),
-    artist_name VARCHAR(255),
+    track_name VARCHAR(255) NOT NULL,
+    artist_name VARCHAR(255) NOT NULL,
     playlist_id INTEGER NOT NULL,
     FOREIGN KEY (playlist_id) REFERENCES shared_playlists(playlist_id)
     ON DELETE CASCADE --ensures that tracks are deleted if the playlist is deleted
