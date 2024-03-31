@@ -2,7 +2,6 @@
 
 const express = require('express');
 const authController = require('../controllers/authController');
-//const { getRecentlyPlayed, getRecommended } = require('../controllers/authController'); // Import the new API endpoint handlers
 
 const router = express.Router();
 

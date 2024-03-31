@@ -38,7 +38,7 @@ const createNewSharedPlaylist = async (req, res) => {
 const getSharedPlaylists = async (req, res) => {
     const { createdByUserEmail, sharedWithUsername } = req.query;
 
-    if (sharedWithUsername === undefined) { 
+    if (sharedWithUsername === undefined) {
         // send back only logged in user's playlists with all friends
         try {
             const result = await pool.query(
@@ -58,7 +58,7 @@ const getSharedPlaylists = async (req, res) => {
             console.error(err);
             return res.status(500).send("Server Error");
         }
-    } else { 
+    } else {
         // send back playlists for two given users 
         try {
             // get user's email from sharedWithUsername
@@ -152,6 +152,7 @@ const getAllTracksFromPlaylist = async (req, res) => {
 
 // ---------------------------------------------------------------------------------------------
 // test endpoint, not used by frontend
+/* istanbul ignore next */
 const deleteSharedPlaylistsContent = async (req, res) => {
     try {
         await pool.query("DELETE FROM shared_playlists");
@@ -163,6 +164,7 @@ const deleteSharedPlaylistsContent = async (req, res) => {
 };
 
 // test endpoint only
+/* istanbul ignore next */
 const deleteAllTracks = async (req, res) => {
     try {
         await pool.query("DELETE FROM shared_playlist_tracks");
@@ -180,8 +182,9 @@ exports.addTrackToPlaylist = addTrackToPlaylist;
 exports.getAllTracksFromPlaylist = getAllTracksFromPlaylist;
 
 // only test
+/* istanbul ignore next */
 exports.deleteSharedPlaylistsContent = deleteSharedPlaylistsContent;
 // curl -X DELETE http://localhost:6001/deleteAllSharedPlaylists
-
+/* istanbul ignore next */
 exports.deleteAllTracks = deleteAllTracks;
 // curl -X DELETE http://localhost:6001/deleteAllTracks
