@@ -6,8 +6,9 @@ const querystring = require('querystring');
 const request = require('request');
 const { Pool } = require('pg');
 const pool = require('../db'); // Reuse the existing pool
+const moment = require('moment-timezone');
 const { generateRandomString, shuffleArray } = require('../utils/spotifyUtils');
-const { getRecommendedTracks, getRecentlyPlayedTracks , getTopGenres } = require('./trackServices');
+const { getRecommendedTracks, getRecentlyPlayedTracks, getTopGenres, getListeningTrends } = require('./trackServices');
 
 // Other imports (like getUserById) should be added based on your application structure
 
@@ -85,7 +86,7 @@ const authController = {
                 json: true,
               };
 
-              request.get(recentlyPlayedOptions, function (error, recentlyPlayedResponse, recentlyPlayedBody) {
+              request.get(recentlyPlayedOptions, async function (error, recentlyPlayedResponse, recentlyPlayedBody) {
                 if (!error && recentlyPlayedResponse.statusCode === 200) {
 
                   // Extract relevant information from recently played tracks
@@ -110,7 +111,8 @@ const authController = {
                     let artists = track.artists.map(artist => artist.name).join(', ');
                     let artistID = track.artists[0].id; // first artist for simplicity
 
-                    // console.log("Track Name:", trackName);
+                    console.log("Track Name:", trackName);
+                    console.log(item.played_at);
                     // console.log("Artists:", artists);
 
                     // Fetch artist information to get genres
@@ -140,21 +142,33 @@ const authController = {
                     });
 
                     // Update listening trends
-                    const trackDate = new Date(item.played_at).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+                    const trackDate = moment.utc(item.played_at).format('YYYY-MM-DD'); // Ensures the date is interpreted in UTC
 
-                    const updateListeningTrendsQuery = `
-                    INSERT INTO listening_trends (user_name, date, track_count)
-                    VALUES ($1, $2, 1)
-                    ON CONFLICT (user_name, date)
-                    DO UPDATE SET track_count = listening_trends.track_count + 1
-                `;
-                    const trendValues = [userId, trackDate];
+                    const checkQuery = `
+        SELECT 1
+        FROM recently_played_tracks
+        WHERE user_name = $1 AND track_name = $2`;
+                    const checkValues = [userId, item.track.name];
 
-                    pool.query(updateListeningTrendsQuery, trendValues, (err) => {
-                      if (err) {
-                        console.error('Error updating listening trends:', err);
-                      }
-                    });
+                    const { rows } = pool.query(checkQuery, checkValues);
+
+                    console.log(rows);
+
+                    if (!rows) {
+                      // Track has not been counted yet, update listening trends
+                      const updateListeningTrendsQuery = `
+          INSERT INTO listening_trends (user_name, date, track_count)
+          VALUES ($1, $2, 1)
+          ON CONFLICT (user_name, date)
+          DO UPDATE SET track_count = listening_trends.track_count + 1;`;
+                      const trendValues = [userId, trackDate];
+
+                      pool.query(updateListeningTrendsQuery, trendValues, (err) => {
+                        if (err) {
+                          console.error('Error updating listening trends:', err);
+                        }
+                      });
+                    }
 
                     // Store the track information along with genres
                     recentlyPlayedTracks.push({
@@ -295,6 +309,21 @@ const authController = {
       res.json(topGenres);
     } catch (error) {
       console.error('Error fetching top genres:', error.message);
+      res.status(500).json({ error: 'internal_server_error' });
+    }
+  },
+
+  // API endpoint to get listening trends
+  getListeningTrend: async (req, res) => {
+    try {
+      const userId = req.params.userId; // User ID parameter from the request
+
+      // Fetch trends from the database
+      const listeningTrends = await getListeningTrends(userId);
+
+      res.json(listeningTrends);
+    } catch (error) {
+      console.error('Error fetching listening trends:', error.message);
       res.status(500).json({ error: 'internal_server_error' });
     }
   },
