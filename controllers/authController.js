@@ -6,6 +6,7 @@ const querystring = require('querystring');
 const request = require('request');
 const { Pool } = require('pg');
 const pool = require('../db'); // Reuse the existing pool
+const moment = require('moment-timezone');
 const { generateRandomString, shuffleArray } = require('../utils/spotifyUtils');
 const { getRecommendedTracks, getRecentlyPlayedTracks , getTopGenres , getListeningTrends } = require('./trackServices');
 
@@ -110,7 +111,8 @@ const authController = {
                     let artists = track.artists.map(artist => artist.name).join(', ');
                     let artistID = track.artists[0].id; // first artist for simplicity
 
-                    // console.log("Track Name:", trackName);
+                    console.log("Track Name:", trackName);
+                    console.log(item.played_at);
                     // console.log("Artists:", artists);
 
                     // Fetch artist information to get genres
@@ -140,14 +142,14 @@ const authController = {
                     });
 
                     // Update listening trends
-                    const trackDate = new Date(item.played_at).toISOString().split('T')[0]; // Format as YYYY-MM-DD
+                    const trackDate = moment.utc(item.played_at).format('YYYY-MM-DD'); // Ensures the date is interpreted in UTC
 
                     const updateListeningTrendsQuery = `
                     INSERT INTO listening_trends (user_name, date, track_count)
                     VALUES ($1, $2, 1)
                     ON CONFLICT (user_name, date)
-                    DO UPDATE SET track_count = listening_trends.track_count + 1
-                `;
+                    DO UPDATE SET track_count = listening_trends.track_count + 1`;
+
                     const trendValues = [userId, trackDate];
 
                     pool.query(updateListeningTrendsQuery, trendValues, (err) => {
