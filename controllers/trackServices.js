@@ -1,5 +1,6 @@
 const { Pool } = require('pg');
 const pool = require('../db'); // Reuse the existing pool
+const moment = require('moment-timezone');
 
 async function getRecentlyPlayedTracks(userId) {
   const query = `
@@ -53,4 +54,36 @@ async function getTopGenres(userId) {
   return sortedGenres;
 }
 
-module.exports = { getRecentlyPlayedTracks, getRecommendedTracks, getTopGenres };
+async function getListeningTrends(userId) {
+  try {
+    const results = await pool.query(
+      `SELECT DATE_TRUNC('month', date) as month, SUM(track_count) as total_streams
+       FROM listening_trends
+       WHERE user_name = $1
+       GROUP BY month
+       ORDER BY month ASC;`,
+      [userId]
+    );
+
+    console.log(results.rows);
+
+    // Map through each row and transform the data
+    const formattedResults = results.rows.map(row => {
+      // Parse the date as UTC to ensure the correct date is maintained
+      const monthName = moment.utc(row.month).format('MMM'); // Forces UTC
+
+      return {
+        month: monthName,
+        streams: Number(row.total_streams)
+      };
+    });
+
+    return formattedResults;
+
+  } catch (error) {
+    console.error('Error getting listening trends:', error);
+    throw error;
+  }
+}
+
+module.exports = { getRecentlyPlayedTracks, getRecommendedTracks, getTopGenres, getListeningTrends };

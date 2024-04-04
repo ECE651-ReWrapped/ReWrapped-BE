@@ -7,7 +7,7 @@ const request = require('request');
 const { Pool } = require('pg');
 const pool = require('../db'); // Reuse the existing pool
 const { generateRandomString, shuffleArray } = require('../utils/spotifyUtils');
-const { getRecommendedTracks, getRecentlyPlayedTracks , getTopGenres } = require('./trackServices');
+const { getRecommendedTracks, getRecentlyPlayedTracks , getTopGenres , getListeningTrends } = require('./trackServices');
 
 // Other imports (like getUserById) should be added based on your application structure
 
@@ -295,6 +295,21 @@ const authController = {
       res.json(topGenres);
     } catch (error) {
       console.error('Error fetching top genres:', error.message);
+      res.status(500).json({ error: 'internal_server_error' });
+    }
+  },
+
+   // API endpoint to get listening trends
+   getListeningTrend: async (req, res) => {
+    try {
+      const userId = req.params.userId; // User ID parameter from the request
+
+      // Fetch trends from the database
+      const listeningTrends = await getListeningTrends(userId);
+
+      res.json(listeningTrends);
+    } catch (error) {
+      console.error('Error fetching listening trends:', error.message);
       res.status(500).json({ error: 'internal_server_error' });
     }
   },
