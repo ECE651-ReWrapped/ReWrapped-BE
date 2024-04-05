@@ -32,6 +32,8 @@ const register = async (req, res) => {
       return res.status(401).json({ message: "Passwords do not match" });
     }
 
+    
+
     const salt = await bycrypt.genSalt(10);
     const bcryptPassword = await bycrypt.hash(password, salt);
 

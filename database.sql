@@ -15,6 +15,7 @@ CREATE TABLE users(
   user_name VARCHAR(255) NOT NULL UNIQUE,
   user_email VARCHAR(255) NOT NULL UNIQUE,
   user_password VARCHAR(255) NOT NULL,
+  is_deleted BOOLEAN DEFAULT FALSE,
   PRIMARY KEY(user_id)
 );
 
