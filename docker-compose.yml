@@ -10,6 +10,6 @@ services:
     environment:
       ENV: development
     ports:
-      - "3000:3000"
+      - "6001:6001"
     restart: on-failure
     container_name: music-catalogue-backend
