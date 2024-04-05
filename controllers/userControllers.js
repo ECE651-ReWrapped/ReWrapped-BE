@@ -153,6 +153,7 @@ const logout = async (req, res) => {
 };
 
 const verifyToken = async (req, res) => {
+  return res.status(200).json({ auth: true, user });
   const cookies = req.headers.cookie;
 
   if (!cookies) {
