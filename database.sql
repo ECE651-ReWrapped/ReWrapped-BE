@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS recommended_tracks;
 DROP TABLE IF EXISTS followers;
 DROP TABLE IF EXISTS listening_trends;
 DROP TABLE IF EXISTS shared_playlists CASCADE;
--- DROP TABLE IF EXISTS shared_playlist_tracks;
+DROP TABLE IF EXISTS shared_playlist_tracks;
 
 CREATE TABLE users(
   user_id uuid DEFAULT uuid_generate_v4(),
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS shared_playlists (
     playlist_id SERIAL PRIMARY KEY,
     playlist_name VARCHAR(255) NOT NULL,
     createdbyemail VARCHAR(255) NOT NULL,
-    sharedwithemail VARCHAR(255) NOT NULL,
+    sharedwithemail VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS shared_playlist_tracks (
