@@ -24,7 +24,7 @@ const authController = {
         response_type: 'code',
         client_id: '6a9f417f4971486997e26fdcf43d3502',
         scope: scope,
-        redirect_uri: 'https://rewrapped-be-production.up.railway.app/callback',
+        redirect_uri: 'http://localhost:6001/callback',
         state: expectedState
       }));
 
@@ -47,7 +47,7 @@ const authController = {
         url: 'https://accounts.spotify.com/api/token',
         form: {
           code: code,
-          redirect_uri: 'https://rewrapped-be-production.up.railway.app/callback',
+          redirect_uri: 'http://localhost:6001/callback',
           grant_type: 'authorization_code'
         },
         headers: {
@@ -233,7 +233,7 @@ const authController = {
                       // Send a JSON response with the display name
                       //const displayName = req.session.userId;
 
-                      res.redirect('https://rewrapped.up.railway.app/dashboard/?displayName=' + encodeURIComponent(userId));
+                      res.redirect('http://localhost:3000/dashboard/?displayName=' + encodeURIComponent(userId));
                     } else {
                       // Handle the case where access_token is not present in the response
                       res.redirect('/error?' +
@@ -361,14 +361,14 @@ passport.deserializeUser(async (id, done) => {
 const spotifyApi = new SpotifyWebApi({
   clientId: "6a9f417f4971486997e26fdcf43d3502",
   clientSecret: "2b7d1892b983458cb441ff4ba371dd7b",
-  redirectUri: 'https://rewrapped-be-production.up.railway.app/callback'
+  redirectUri: 'http://localhost:6001/callback'
 });
 
 // Passport SpotifyStrategy configuration
 passport.use(new SpotifyStrategy({
   clientID: '6a9f417f4971486997e26fdcf43d3502',
   clientSecret: '2b7d1892b983458cb441ff4ba371dd7b',
-  callbackURL: 'https://rewrapped-be-production.up.railway.app/callback',
+  callbackURL: 'http://localhost:6001/callback',
 }, async (accessToken, refreshToken, profile, done) => {
   try {
     spotifyApi.setAccessToken(accessToken);
