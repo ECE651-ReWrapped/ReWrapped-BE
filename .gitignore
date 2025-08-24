@@ -95,3 +95,4 @@ Thumbs.db
 example_code/
 customRun.sql
 output.txt
+sonar-project.properties
